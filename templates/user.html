@@ -1,11 +1,42 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <title>Bands Page</title>
+    <style>
+        /* Add your custom styles here */
+    </style>
+</head>
 <body>
-    <h2>Student <b>{{usr_info[1]}}</b> is taking these classes:</h2>
-    <br/>
-    {% for i in classes %}
-        <a href="/class/{{i[0]}}">{{i[1]}}</a>
-        <hr/>
-    {% endfor %}
+    <h1>Bands</h1>
+
+    <!-- Form to add a new band -->
+    <h2>Add a New Band</h2>
+    <form action="/add-band" method="POST">
+        <label for="band-name">Band Name:</label><br>
+        <input type="text" id="band-name" name="band-name"><br>
+        <label for="contact-info">Contact Information:</label><br>
+        <input type="text" id="contact-info" name="contact-info"><br>
+        <input type="submit" value="Add Band">
+    </form>
+
+    <!-- Form to search/sort bands -->
+    <h2>Search and Sort Bands</h2>
+    <form action="/search-sort-bands" method="GET">
+        <label for="search-term">Search:</label><br>
+        <input type="text" id="search-term" name="search-term"><br>
+        <label for="sort-by">Sort By:</label><br>
+        <select id="sort-by" name="sort-by">
+            <option value="name">Name</option>
+            <option value="contact">Contact Information</option>
+        </select><br>
+        <input type="submit" value="Search/Sort">
+    </form>
+
+    <!-- Display available bands -->
+    <h2>Available Bands</h2>
+    <div id="band-list">
+        <!-- Band details will be fetched and inserted here -->
+    </div>
 </body>
 </html>
+
