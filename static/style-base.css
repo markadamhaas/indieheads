@@ -1,0 +1,52 @@
+@font-face {
+    font-family: 'Fredericka the Great';
+    src: url('FrederickatheGreat-Regular.ttf');
+}
+
+body {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: #ddd;
+    background-color: #383131;
+}
+
+.nav {
+    font-family: 'Fredericka the Great', sans-serif;
+    display: flex;
+    font-size: 20px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1%;
+    background: #383131;
+}
+
+.nav a {
+    font-size: 3vw;
+    margin-right: 0.5em;
+    text-decoration: none;
+    color: #ddd;
+    background-color: rgba(0, 0, 0, 0);
+    padding: 1px;
+    transition: background-color 0.5s ease;
+}
+
+@media (max-width: 600px) {
+    .nav a {
+        font-size: 12px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .nav a {
+        font-size: 35px;
+    }
+}
+
+.nav img {
+    height: 80px;
+    width: auto;
+    margin: 0;
+}
+
+.nav a:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}

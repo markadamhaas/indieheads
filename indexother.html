@@ -2,89 +2,18 @@
 <html>
     <head>
         <title>Indieheads Management System</title>
-        <style>
-            @font-face {
-                font-family: 'Fredericka the Great';
-                src: url('FrederickatheGreat-Regular.ttf');  
-            }
-            body {
-                font-family: Georgia, 'Times New Roman', Times, serif;
-                color: #ddd;
-                background-color: #383131;  /* Change this to the color or image you want */
-            }
-            .nav {
-                font-family: 'Fredericka the Great', sans-serif;  /* Use the custom font */
-                display: flex;
-                font-size: 20px;
-                justify-content: space-between;
-                align-items: center;
-                padding: 1%;
-                background: #383131;
-            }
-            .nav a {
-            font-size: 3vw;  /* scaling size of nav items */
-            margin-right: 0.5em;
-            text-decoration: none;
-            color: #ddd;
-            /* new - set the initial background transparent */
-            background-color: rgba(0, 0, 0, 0);
-            /* new - add some padding to create more space for the background color */
-            padding: 1px;
-            /* new - transition for the hover effect */
-            transition: background-color 0.5s ease;
-            }
-
-            /* Set a minimum font size of nav items */
-            @media (max-width: 600px) {
-                .nav a {
-                    font-size: 12px;
-                }
-            }
-
-            /* Set a maximum font size of nav items */
-            @media (min-width: 1200px) {
-                .nav a {
-                    font-size: 35px;
-                }
-            }
-
-            .nav img {
-                height: 80px;
-                width: auto;
-                margin: 0;
-            }
-            .checklist{
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            .checklist-item{
-                display: flex;
-                align-items: center;
-                margin-left: 15%;
-                margin-bottom: 10px;  /* Spacing between checklist items */
-            }
-            h1, h2, h3 {
-                text-align: center;
-            }
-            .nav a:hover {
-                /* new - change the background color on hover with 50% opacity */
-                background-color: rgba(0, 0, 0, 0.5);
-            }
-
-        </style>
+        <link rel="stylesheet" href="style.css">
     </head>    
 <body>
     <!-- Navigation Menu -->
     <div class="nav">
         <a href="index.html"><img src="indiehead.png" alt="Home"></a>
-        <a href="shows.html">Shows</a>
-        <a href="bands.html">Bands</a>
-        <a href="venues.html">Venues</a>
-        <a href="equipment.html">Equipment</a>
-        <a href="merch.html">Merch</a>
-        <a href="volunteer.html">Volunteers</a>
-        <a href="financials.html">Financials</a>
+        <a href="shows.html">shows</a>
+        <a href="bands.html">bands</a>
+        <a href="venues.html">venues</a>
+        <a href="equipment.html">equipment</a>
+        <a href="merch.html">merch</a>
+        <a href="volunteer.html">volunteers</a>
     </div>
 
     <!-- Page Content -->

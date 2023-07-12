@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Indieheads Management System</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style-index.css') }}">
+    </head>    
+<body>
+    <!-- Navigation Menu -->
+    <div class="nav">
+        <a href="{{ url_for('index_page') }}"><img src="{{ url_for('static', filename='indiehead.png') }}" alt="Home"></a>
+        <a href="{{ url_for('shows') }}">shows</a>
+        <a href="{{ url_for('bands') }}">bands</a>
+        <a href="{{ url_for('venues') }}">venues</a>
+        <a href="{{ url_for('equipment') }}">equipment</a>
+        <a href="{{ url_for('merch') }}">merch</a>
+    </div>
+    
+
+    <!-- Page Content -->
+    <h1>Indieheads House Show Checklist</h1>
+
+   <!-- Simple Checklist -->
+   <div class="checklist">
+    <form>
+        <h2>Step 1: Bands</h2>
+        <div class="checklist-item">
+            <input type="checkbox" id="band1" name="band1">
+            <label for="band1">Choose 4 bands and reach out to them at least 3 weeks in advance.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="band2" name="band2">
+            <label for="band2">Explain what a house show entails and set expectations.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="band3" name="band3">
+            <label for="band3">Confirm playing time (45-50 minutes or 30 minutes) and price ($200-$400).</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="band4" name="band4">
+            <label for="band4">Obtain their phone numbers for group communication.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="band5" name="band5">
+            <label for="band5">Inform bands to arrive 2-1.5 hours in advance for setup.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="band6" name="band6">
+            <label for="band6">Ensure they are aware of the zero tolerance policy.</label>
+        </div>
+        
+        <h2>Step 2: Venue</h2>
+        <div class="checklist-item">
+            <input type="checkbox" id="venue1" name="venue1">
+            <label for="venue1">Contact venues at the same time as reaching out to bands.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="venue2" name="venue2">
+            <label for="venue2">Select a weekend for the show.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="venue3" name="venue3">
+            <label for="venue3">Confirm payment details (usually $150) and free admission for house members only.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="venue4" name="venue4">
+            <label for="venue4">Discuss venue requirements such as outlets, space, garbage/recycling bins, and ending time.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="venue5" name="venue5">
+            <label for="venue5">Instruct house members to lock doors and stock bathrooms.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="venue6" name="venue6">
+            <label for="venue6">Coordinate clean-up responsibilities.</label>
+        </div>
+        
+        <h2>Step 3: Sound & Gear</h2>
+        <div class="checklist-item">
+            <input type="checkbox" id="sound1" name="sound1">
+            <label for="sound1">Contact Urec for lending a PA system, backline drumkit, and an audio engineer.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="sound2" name="sound2">
+            <label for="sound2">Negotiate prices for rentals and audio engineer services.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="sound3" name="sound3">
+            <label for="sound3">Seek alternative options like Yard Sale and Beezin for PA systems and drumkits.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="sound4" name="sound4">
+            <label for="sound4">Secure audio engineers such as Erik Holmer and Brandon Bitgood.</label>
+        </div>
+        
+        <h2>Step 4: Advertising</h2>
+        <div class="checklist-item">
+            <input type="checkbox" id="advertising1" name="advertising1">
+            <label for="advertising1">Start designing posters 1.5-1 week in advance.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="advertising2" name="advertising2">
+            <label for="advertising2">Create 2-3 posters with event details: name, lineup, date, time, location, and admission cost.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="advertising3" name="advertising3">
+            <label for="advertising3">Print posters through 1515newcombhall@gmail.com, specifying CIO name as Indieheads.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="advertising4" name="advertising4">
+            <label for="advertising4">Distribute posters around the venue, focusing on important areas like Ohill, e-way, newcomb, the amphitheater, the corner, and 14th street.</label>
+        </div>
+        
+        <h2>Step 5: Tickets, Drinks & Setup</h2>
+        <div class="checklist-item">
+            <input type="checkbox" id="tickets1" name="tickets1">
+            <label for="tickets1">Set up a table for selling tickets and provide chairs.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="tickets2" name="tickets2">
+            <label for="tickets2">Prepare wristbands for bands/members and guests.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="tickets3" name="tickets3">
+            <label for="tickets3">Display Venmo information and ticket prices on sheets of paper.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="tickets4" name="tickets4">
+            <label for="tickets4">Have a bucket for cash and miscellaneous items.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="tickets5" name="tickets5">
+            <label for="tickets5">Organize shifts for table duties.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="tickets6" name="tickets6">
+            <label for="tickets6">Estimate drink quantities based on expected audience and budget.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="tickets7" name="tickets7">
+            <label for="tickets7">Consider getting cases of water and ice if feasible.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="tickets8" name="tickets8">
+            <label for="tickets8">Use a barricade to control entrance and perform occasional wristband checks during the show.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="tickets9" name="tickets9">
+            <label for="tickets9">Manage transitions between bands and ensure everyone has a good time.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="tickets10" name="tickets10">
+            <label for="tickets10">Clean up the venue, return borrowed gear, and ensure everyone is paid.</label>
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Bands{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style-bands.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<h1>{{ band['Band_Name'] }}</h1>
+
+<h2>Band Details</h2>
+
+<p><strong>ID:</strong> {{ band['Band_ID'] }}</p>
+<p><strong>Name:</strong> {{ band['Band_Name'] }}</p>
+<p><strong>Location:</strong> {{ band['Band_Location'] }}</p>
+<p><strong>Genre:</strong> {{ band['Band_Genre'] }}</p>
+<p><strong>Instagram:</strong> {{ band['Band_Instagram'] }}</p>
+<p><strong>Contact Person:</strong> {{ band['B_Contact_Person'] }}</p>
+<p><strong>Contact Number:</strong> {{ band['B_Contact_Number'] }}</p>
+
+<h2>Members</h2>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Role</th>
+    </tr>
+    {% for member in members %}
+    <tr>
+        <td>{{ member['Member_ID'] }}</td>
+        <td>{{ member['Member_FName'] }}</td>
+        <td>{{ member['Member_LName'] }}</td>
+        <td>{{ member['Member_Role'] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
