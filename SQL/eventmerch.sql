@@ -1,0 +1,12 @@
+USE indieheads;
+
+-- DROP TABLE EVENTMERCH;
+
+CREATE TABLE EVENTMERCH (
+    EventMerch_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Event_ID INT,
+    Merch_ID INT,
+    QuantitySold INT,
+    FOREIGN KEY (Event_ID) REFERENCES EVENT(Event_ID),
+    FOREIGN KEY (Merch_ID) REFERENCES MERCH(Merch_ID)
+);

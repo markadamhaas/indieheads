@@ -1,9 +1,13 @@
 USE indieheads;
 
+DROP TABLE EQUIPMENT;
+DROP TABLE VOLUNTEER;
+
 CREATE TABLE VOLUNTEER (
    Volunteer_ID INT AUTO_INCREMENT PRIMARY KEY,
    Volunteer_FName VARCHAR(50),
    Volunteer_LName VARCHAR(50),
+   Volunteer_Phone VARCHAR(12),
    Volunteer_Email VARCHAR(50),
    Volunteer_Avail_1 BIT,
    Volunteer_Avail_2 BIT,
