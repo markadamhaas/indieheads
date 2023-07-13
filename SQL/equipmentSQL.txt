@@ -1,0 +1,27 @@
+CREATE TABLE EQUIPMENT (
+   Equipment_ID INT AUTO_INCREMENT PRIMARY KEY,
+   Equipment_Type VARCHAR(30),
+   Equipment_Price INT,
+   FOREIGN KEY (Vendor_ID) REFERENCES VENDOR(Vendor_ID)
+);
+
+INSERT INTO EQUIPMENT (Equipment_Type, Equipment_Price, Vendor_ID)
+VALUES ('Drumkit (Backline)', 50, 1);
+
+INSERT INTO EQUIPMENT (Equipment_Type, Equipment_Price, Vendor_ID)
+VALUES ('Drumkit (Backline)', 30, 2);
+
+INSERT INTO EQUIPMENT (Equipment_Type, Equipment_Price, Vendor_ID)
+VALUES ('PA System', 50, 1);
+
+INSERT INTO EQUIPMENT (Equipment_Type, Equipment_Price, Vendor_ID)
+VALUES ('PA System', 30, 2);
+
+INSERT INTO EQUIPMENT (Equipment_Type, Equipment_Price, Vendor_ID)
+VALUES ('PA System', 30, 3);
+
+INSERT INTO EQUIPMENT (Equipment_Type, Equipment_Price, Vendor_ID)
+VALUES ('Audio Engineer', 50, 1);
+
+INSERT INTO EQUIPMENT (Equipment_Type, Equipment_Price, Vendor_ID)
+VALUES ('Audio Engineer', 50, 4);
