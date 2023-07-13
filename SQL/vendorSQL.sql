@@ -1,17 +1,19 @@
+USE indieheads;
+
 CREATE TABLE VENDOR (
    Vendor_ID INT AUTO_INCREMENT PRIMARY KEY,
    Vendor_Name VARCHAR(50),
-   Vendor_Phone VARCHAR(12),
+   Vendor_Phone VARCHAR(12)
 );
 
 INSERT INTO VENDOR (Vendor_Name, Vendor_Phone)
-VALUES ("UREC", '555-987-2345')
+VALUES ('UREC', '555-987-2345');
 
 INSERT INTO VENDOR (Vendor_Name, Vendor_Phone)
-VALUES ("Beezin", '555-123-8675')
+VALUES ('Beezin', '555-123-8675');
 
 INSERT INTO VENDOR (Vendor_Name, Vendor_Phone)
-VALUES ("Yaard Sale", '555-123-8675')
+VALUES ('Yaard Sale', '555-123-8675');
 
 INSERT INTO VENDOR (Vendor_Name, Vendor_Phone)
-VALUES ("Brandon Bitgood", '555-965-2254')
+VALUES ('Brandon Bitgood', '555-965-2254');

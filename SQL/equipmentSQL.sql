@@ -1,7 +1,10 @@
+USE indieheads;
+
 CREATE TABLE EQUIPMENT (
    Equipment_ID INT AUTO_INCREMENT PRIMARY KEY,
    Equipment_Type VARCHAR(30),
    Equipment_Price INT,
+   Vendor_ID INT,
    FOREIGN KEY (Vendor_ID) REFERENCES VENDOR(Vendor_ID)
 );
 

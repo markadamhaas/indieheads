@@ -1,3 +1,5 @@
+USE indieheads;
+
 CREATE TABLE VENUE (
    Venue_ID INT AUTO_INCREMENT PRIMARY KEY,
    Venue_Name VARCHAR(50),
