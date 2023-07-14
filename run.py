@@ -79,7 +79,7 @@ def shows():
     # placeholder
     return render_template('shows.html')
 
-class CreateShowFrom(FlaskForm):
+class CreateShowForm(FlaskForm):
     # Event Record
     venue = SelectField('Venue', validators=[DataRequired()])
     date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired()])
@@ -99,7 +99,7 @@ class CreateShowFrom(FlaskForm):
 
 @app.route('/create_show', methods=['GET', 'POST'])
 def createshow():
-    form = CreateShowFrom()
+    form = CreateShowForm()
     # Retrieve data from the MySQL table
     cursor = mydb.cursor()
     cursor.execute('SELECT Venue_ID, Venue_Name FROM VENUE') #venue select
