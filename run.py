@@ -1,7 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
+from flask_wtf import FlaskForm
+from wtforms import StringField, DateField, TimeField, SubmitField
 
 app = Flask(__name__)
+
+app.debug = True
+app.config['SECRET_KEY'] = 'supersecretkey'
 
 mydb = mysql.connector.connect(
     host="localhost",
@@ -72,6 +77,20 @@ def edit_band(id):
 def shows():
     # placeholder
     return render_template('shows.html')
+
+class CreateShowFrom(FlaskForm):
+    date = DateField('Date', format='%Y-%m-%d')
+    submit = SubmitField('Create')
+    # Time = TimeField
+
+
+@app.route('/createshow', methods=['GET', 'POST'])
+def createshow():
+    form = CreateShowFrom()
+    if form.is_submitted():
+        if form.validate():
+            result = request.form
+    return render_template('createshow.html', form=form)
 
 @app.route('/venues')
 def venues():

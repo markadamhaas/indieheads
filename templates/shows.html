@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <title>Indieheads Management System</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style-index.css') }}">
+    </head>    
 <body>
-<h1>This is a test</h1>
+    <!-- Navigation Menu -->
+    <div class="nav">
+        <a href="{{ url_for('index_page') }}"><img src="{{ url_for('static', filename='indiehead.png') }}" alt="Home"></a>
+        <a href="{{ url_for('shows') }}">shows</a>
+        <a href="{{ url_for('bands') }}">bands</a>
+        <a href="{{ url_for('venues') }}">venues</a>
+        <a href="{{ url_for('equipment') }}">equipment</a>
+        <a href="{{ url_for('merch') }}">merch</a>
+    </div>
+    
+
+    <!-- Page Content -->
+    <h1>shows</h1>
+
 </body>
 </html>
