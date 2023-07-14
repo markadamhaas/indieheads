@@ -1,39 +1,73 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}Bands{% endblock %}
-
-{% block css %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='style-bands.css') }}">
+{% block title %}
+    Bands
 {% endblock %}
 
 {% block content %}
-    <div class="container my-3">
-        <form class="form-inline" method="post" action="/search">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" name="q">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+<style>
+    table {
+        margin: auto;
+    }
 
-        <form method="post" action="/sort">
-            <select class="custom-select my-3" name="sort-option">
-                <option selected>Sort By...</option>
-                <option value="name">Name</option>
-                <option value="genre">Genre</option>
-                <option value="location">Location</option>
-            </select>
-            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Sort</button>
-        </form>
-    </div>
+    form {
+        display: grid;
+        width: 10%; 
+        margin: 0 auto; /* centers the form horizontally */
+    }
 
-    <div class="band-container">
+    .form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50vh; /* adjust as needed */
+    }
+
+    a {
+        color: #dddd; /* Or any color you prefer */
+    }
+</style>
+<table>
+    <thead>
+        <tr>
+            <th><a href="{{ url_for('bands', sort='Band_Name') }}">Name</a></th>
+            <th><a href="{{ url_for('bands', sort='Band_Genre') }}">Genre</a></th>
+            <th><a href="{{ url_for('bands', sort='Band_Location') }}">Location</a></th>
+            <th><a href="{{ url_for('bands', sort='Band_Instagram') }}">Instagram</a></th>
+            <th><a href="{{ url_for('bands', sort='B_Contact_Person') }}">Contact Person</a></th>
+            <th><a href="{{ url_for('bands', sort='B_Contact_Number') }}">Contact Number</a></th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for band in bands %}
-            <div class="band-card">
-                <div class="card-content">
-                    <h5 class="card-title">{{ band.Band_Name }}</h5>
-                    <p class="card-text">{{ band.Band_Genre }}</p>
-                    <p class="card-text">{{ band.Band_Location }}</p>
-                    <a href="{{ url_for('band_details', id=band.Band_ID) }}" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
+            <tr>
+                <td>{{ band.Band_Name }}</td>
+                <td>{{ band.Band_Genre }}</td>
+                <td>{{ band.Band_Location }}</td>
+                <td>{{ band.Band_Instagram }}</td>
+                <td>{{ band.B_Contact_Person }}</td>
+                <td>{{ band.B_Contact_Number }}</td>
+                <td>
+                    <a href="{{ url_for('edit_band', id=band.Band_ID) }}">Edit</a>
+                    <form method="post" action="{{ url_for('delete_band', id=band.Band_ID) }}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
         {% endfor %}
-    </div>
+    </tbody>
+</table>
+
+<!-- Add Band Form -->
+<form method="post" action="{{ url_for('add_band') }}">
+    <label>Name: <input type="text" name="Band_Name"></label>
+    <label>Genre: <input type="text" name="Band_Genre"></label>
+    <label>Location: <input type="text" name="Band_Location"></label>
+    <label>Instagram: <input type="text" name="Band_Instagram"></label>
+    <label>Contact Person: <input type="text" name="B_Contact_Person"></label>
+    <label>Contact Number: <input type="text" name="B_Contact_Number"></label>
+    <button type="submit">Add Band</button>
+</form>
+
 {% endblock %}

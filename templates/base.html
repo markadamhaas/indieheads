@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>{% block title %}{% endblock %}</title>
-    {% block css %}{% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style-base.css') }}">
 </head>
 <body>
     <!-- Navigation Menu -->

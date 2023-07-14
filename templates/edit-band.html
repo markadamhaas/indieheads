@@ -1,24 +1,34 @@
-<!DOCTYPE html>
-<html>
-<body>
+{% extends "base.html" %}
+
+{% block title %}
+    Edit Band - {{ band['Band_Name'] }}
+{% endblock %}
+
+{% block content %}
 
 <h1>Edit Band</h1>
 
-<form method="post">
-    <label for="name">Name:</label><br>
-    <input type="text" id="name" name="Band_Name" value="{{ band[1] }}"><br>
-    <label for="location">Location:</label><br>
-    <input type="text" id="location" name="Band_Location" value="{{ band[2] }}"><br>
-    <label for="genre">Genre:</label><br>
-    <input type="text" id="genre" name="Band_Genre" value="{{ band[3] }}"><br>
-    <label for="instagram">Instagram:</label><br>
-    <input type="text" id="instagram" name="Band_Instagram" value="{{ band[4] }}"><br>
-    <label for="contact_person">Contact Person:</label><br>
-    <input type="text" id="contact_person" name="B_Contact_Person" value="{{ band[5] }}"><br>
-    <label for="contact_number">Contact Number:</label><br>
-    <input type="text" id="contact_number" name="B_Contact_Number" value="{{ band[6] }}"><br>
-    <input type="submit" value="Submit">
+<form method="post" style="width: 300px; margin: auto;">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="Band_Name" value="{{ band['Band_Name'] }}" style="width: 100%; margin-bottom: 10px;">
+
+    <label for="location">Location:</label>
+    <input type="text" id="location" name="Band_Location" value="{{ band['Band_Location'] }}" style="width: 100%; margin-bottom: 10px;">
+
+    <label for="genre">Genre:</label>
+    <input type="text" id="genre" name="Band_Genre" value="{{ band['Band_Genre'] }}" style="width: 100%; margin-bottom: 10px;">
+
+    <label for="instagram">Instagram:</label>
+    <input type="text" id="instagram" name="Band_Instagram" value="{{ band['Band_Instagram'] }}" style="width: 100%; margin-bottom: 10px;">
+
+    <label for="contact_person">Contact Person:</label>
+    <input type="text" id="contact_person" name="B_Contact_Person" value="{{ band['B_Contact_Person'] }}" style="width: 100%; margin-bottom: 10px;">
+
+    <label for="contact_number">Contact Number:</label>
+    <input type="text" id="contact_number" name="B_Contact_Number" value="{{ band['B_Contact_Number'] }}" style="width: 100%; margin-bottom: 10px;">
+
+    <input type="submit" value="Submit" style="width: 100%; padding: 10px;">
 </form>
 
-</body>
-</html>
+{% endblock %}
+
