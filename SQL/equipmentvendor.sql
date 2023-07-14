@@ -9,3 +9,19 @@ CREATE TABLE EQUIPMENTVENDOR (
     FOREIGN KEY (Equipment_ID) REFERENCES EQUIPMENT(Equipment_ID),
     FOREIGN KEY (Vendor_ID) REFERENCES VENDOR(Vendor_ID)
 );
+
+-- UREC --
+INSERT INTO EQUIPMENTVENDOR (Equipment_ID, Vendor_ID)
+VALUES (1, 1), (3, 1), (6, 1);
+
+-- Yaard Sale --
+INSERT INTO EQUIPMENTVENDOR (Equipment_ID, Vendor_ID)
+VALUES (2, 3), (4, 3);
+
+-- Beezin --
+INSERT INTO EQUIPMENTVENDOR (Equipment_ID, Vendor_ID)
+VALUES (5, 2);
+
+-- Brandon --
+INSERT INTO EQUIPMENTVENDOR (Equipment_ID, Vendor_ID)
+VALUES (7, 4);

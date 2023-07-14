@@ -15,8 +15,8 @@ CREATE TABLE VOLUNTEER (
    Volunteer_Avail_4 BIT
 );
 
-INSERT INTO VOLUNTEER (Volunteer_FName, Volunteer_LName, Volunteer_Email, Volunteer_Avail_1, Volunteer_Avail_2, Volunteer_Avail_3, Volunteer_Avail_4)
-VALUES ('John', 'Doe', 'johndoe@virginia.edu', 1, 1, 1, 1);
+INSERT INTO VOLUNTEER (Volunteer_FName, Volunteer_LName, Volunteer_Email, Volunteer_Phone, Volunteer_Avail_1, Volunteer_Avail_2, Volunteer_Avail_3, Volunteer_Avail_4)
+VALUES ('John', 'Doe', 'johndoe@virginia.edu', '555-875-9076', 1, 1, 1, 1);
 
 INSERT INTO VOLUNTEER (Volunteer_FName, Volunteer_LName, Volunteer_Email, Volunteer_Avail_1, Volunteer_Avail_2, Volunteer_Avail_3, Volunteer_Avail_4)
 VALUES ('Jane', 'Doe', 'janedoe@virginia.edu', 1, 1, 1, 0);
