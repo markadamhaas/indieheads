@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Equipment{% endblock %}
+
+<!-- {% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style-bands.css') }}">
+{% endblock %} -->
+
+{% block content %}
+<h2> Create Equipment </h2>
+    <form action="" method="post">
+        <p>
+            {{form.type.label}}
+            {{form.type()}}
+        </p>
+        <p>
+            {{form.cost.label}}
+            {{form.cost()}}
+        </p>
+        <p>
+            {{form.volunteer.label}}
+            {{form.volunteer()}}
+        </p>
+        <p>{{form.submit()}}</p>
+    </form>
+{% endblock %}

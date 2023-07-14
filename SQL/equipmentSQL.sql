@@ -22,11 +22,11 @@ VALUES ('PA System', 50, NULL);
 INSERT INTO EQUIPMENT (Equipment_Type, Equipment_Cost, Volunteer_ID)
 VALUES ('PA System', 30, NULL);
 
-INSERT INTO EQUIPMENT (Equipment_Type, Equipment_Cost, Volunteer_ID)
-VALUES ('PA System', 30, NULL);
+-- INSERT INTO EQUIPMENT (Equipment_Type, Equipment_Cost, Volunteer_ID)
+-- VALUES ('PA System', 30, NULL);
 
-INSERT INTO EQUIPMENT (Equipment_Type, Equipment_Cost, Volunteer_ID)
-VALUES ('Audio Engineer', 50, NULL);
+-- INSERT INTO EQUIPMENT (Equipment_Type, Equipment_Cost, Volunteer_ID)
+-- VALUES ('Audio Engineer', 50, NULL);
 
 INSERT INTO EQUIPMENT (Equipment_Type, Equipment_Cost, Volunteer_ID)
 VALUES ('Audio Engineer', 50, NULL);

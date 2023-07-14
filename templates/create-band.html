@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Band{% endblock %}
+
+<!-- {% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style-bands.css') }}">
+{% endblock %} -->
+
+{% block content %}
+<h2> Create Band </h2>
+    <form action="" method="post">
+        <p>
+            {{form.name.label}}
+            {{form.name()}}
+        </p>
+        <p>
+            {{form.genre.label}}
+            {{form.genre()}}
+        </p>
+        <p>
+            {{form.instagram.label}}
+            {{form.instagram()}}
+        </p>
+        <p>
+            {{form.contact.label}}
+            {{form.contact()}}
+        </p>
+        <p>
+            {{form.contactphone.label}}
+            {{form.contactphone()}}
+        </p>
+        <p>{{form.submit()}}</p>
+    </form>
+{% endblock %}

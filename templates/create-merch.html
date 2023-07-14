@@ -1,29 +1,29 @@
 {% extends 'base.html' %}
 
-{% block title %}Create Show{% endblock %}
+{% block title %}Create Merch{% endblock %}
 
 <!-- {% block css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='style-bands.css') }}">
 {% endblock %} -->
 
 {% block content %}
-<h2> Create Show </h2>
+<h2> Create Merch </h2>
     <form action="" method="post">
         <p>
-            {{form.venue.label}}
-            {{form.venue()}}
+            {{form.type.label}}
+            {{form.type()}}
         </p>
         <p>
-            {{form.date.label}}
-            {{form.date(size=30)}}
+            {{form.description.label}}
+            {{form.description()}}
         </p>
         <p>
-            {{form.time.label}}
-            {{form.time(size=10)}}
+            {{form.price.label}}
+            {{form.price()}}
         </p>
         <p>
-            {{form.ticketprice.label}}
-            {{form.ticketprice()}}
+            {{form.quantity.label}}
+            {{form.quantity()}}
         </p>
         <p>{{form.submit()}}</p>
     </form>

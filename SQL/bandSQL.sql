@@ -5,7 +5,6 @@ DROP TABLE BANDS;
 CREATE TABLE BANDS (
     Band_ID INT AUTO_INCREMENT PRIMARY KEY,
     Band_Name VARCHAR(75) NOT NULL,
-    Band_Location VARCHAR(50),
     Band_Genre VARCHAR(50),
     Band_Instagram VARCHAR(50),
     B_Contact_Person VARCHAR(75),
