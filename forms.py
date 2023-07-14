@@ -1,12 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, DateField, IntegerField, SubmitField, SelectField
+from wtforms import StringField, DateField, DateTimeField, IntegerField, SubmitField, SelectField
 from wtforms.validators import DataRequired
 
 class CreateShowForm(FlaskForm):
     # Event Record
     venue = SelectField('Venue', validators=[DataRequired()])
     date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired()])
-    time = StringField('Time', validators=[DataRequired()])
+    time = DateTimeField('Time', format='%H:%M:')
     ticketprice = IntegerField('Ticket Price', validators=[DataRequired()])
 
     # Equipment Select

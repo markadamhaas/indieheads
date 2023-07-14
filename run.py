@@ -98,7 +98,7 @@ def shows():
 #     # Submit
 #     submit = SubmitField('Create')
 
-@app.route('/create_show', methods=['GET', 'POST'])
+@app.route('/create-show', methods=['GET', 'POST'])
 def createshow():
     form = forms.CreateShowForm()
     # Retrieve data from the MySQL table
