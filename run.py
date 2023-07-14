@@ -97,9 +97,7 @@ class CreateShowFrom(FlaskForm):
     # Submit
     submit = SubmitField('Create')
 
-
-
-@app.route('/createshow', methods=['GET', 'POST'])
+@app.route('/create_show', methods=['GET', 'POST'])
 def createshow():
     form = CreateShowFrom()
     # Retrieve data from the MySQL table
@@ -125,7 +123,7 @@ def createshow():
         mydb.commit()
         cursor.close()
         return redirect(url_for('shows'))
-    return render_template('createshow.html', form=form)
+    return render_template('create_show.html', form=form)
 
 @app.route('/venues')
 def venues():
