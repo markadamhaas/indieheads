@@ -1,0 +1,12 @@
+USE indieheads;
+
+-- DROP TABLE SETLIST;
+
+CREATE TABLE SETLIST (
+    Set_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Event_ID INT,
+    Band_ID INT,
+    Timeslot INT,
+    FOREIGN KEY (Event_ID) REFERENCES EVENT(Event_ID),
+    FOREIGN KEY (Band_ID) REFERENCES BANDS(Band_ID)
+);

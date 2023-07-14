@@ -1,0 +1,12 @@
+USE indieheads;
+
+-- DROP TABLE VOLUNTEERSCHEDULE;
+
+CREATE TABLE VOLUNTEERSCHEDULE (
+    VolunteerSchedule_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Event_ID INT,
+    Volunteer_ID INT,
+    Timeslot INT,
+    FOREIGN KEY (Event_ID) REFERENCES EVENT(Event_ID),
+    FOREIGN KEY (Volunteer_ID) REFERENCES VOLUNTEER(Volunteer_ID)
+);
