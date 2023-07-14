@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
-from flask_wtf import FlaskForm
-from wtforms import StringField, DateField, IntegerField, SubmitField, SelectField
-from wtforms.validators import DataRequired
+import forms
+# from flask_wtf import FlaskForm
+# from wtforms import StringField, DateField, IntegerField, SubmitField, SelectField
+# from wtforms.validators import DataRequired
 
 app = Flask(__name__)
 
@@ -29,20 +30,20 @@ def bands():
     cursor.close()
     return render_template('bands.html', bands=bands, sort=sort_option)
 
-@app.route("/add_band", methods=['POST'])
-def add_band():
-    cursor = mydb.cursor()
-    newBandName = request.form.get('Band_Name')
-    newBandGenre = request.form.get('Band_Genre')
-    newBandLocation = request.form.get('Band_Location')
-    newBandInstagram = request.form.get('Band_Instagram')
-    newBandContactPerson = request.form.get('B_Contact_Person')
-    newBandContactPhone = request.form.get('B_Contact_Number')
-    cursor.execute("INSERT INTO BANDS (Band_Name, Band_Genre, Band_Location, Band_Instagram, B_Contact_Person, B_Contact_Number) VALUES (%s, %s, %s, %s, %s, %s);", 
-                    (newBandName, newBandGenre, newBandLocation, newBandInstagram, newBandContactPerson, newBandContactPhone))
-    mydb.commit()
-    cursor.close()
-    return redirect(url_for('bands'))
+# @app.route("/create_band", methods=['POST'])
+# def add_band():
+    # cursor = mydb.cursor()
+    # newBandName = request.form.get('Band_Name')
+    # newBandGenre = request.form.get('Band_Genre')
+    # newBandLocation = request.form.get('Band_Location')
+    # newBandInstagram = request.form.get('Band_Instagram')
+    # newBandContactPerson = request.form.get('B_Contact_Person')
+    # newBandContactPhone = request.form.get('B_Contact_Number')
+    # cursor.execute("INSERT INTO BANDS (Band_Name, Band_Genre, Band_Location, Band_Instagram, B_Contact_Person, B_Contact_Number) VALUES (%s, %s, %s, %s, %s, %s);", 
+    #                 (newBandName, newBandGenre, newBandLocation, newBandInstagram, newBandContactPerson, newBandContactPhone))
+    # mydb.commit()
+    # cursor.close()
+    # return redirect(url_for('bands'))
 
 @app.route("/delete_band/<int:id>", methods=['POST'])
 def delete_band(id):
@@ -88,27 +89,27 @@ def shows():
     # placeholder
     return render_template('shows.html')
 
-class CreateShowForm(FlaskForm):
-    # Event Record
-    venue = SelectField('Venue', validators=[DataRequired()])
-    date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired()])
-    time = StringField('Time', validators=[DataRequired()])
-    ticketprice = IntegerField('Ticket Price', validators=[DataRequired()])
+# class CreateShowForm(FlaskForm):
+#     # Event Record
+#     venue = SelectField('Venue', validators=[DataRequired()])
+#     date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired()])
+#     time = StringField('Time', validators=[DataRequired()])
+#     ticketprice = IntegerField('Ticket Price', validators=[DataRequired()])
 
-    # Equipment Select
+#     # Equipment Select
 
-    # Merch Select
+#     # Merch Select
 
-    # Set List
+#     # Set List
 
-    # Volunteer Schedule
+#     # Volunteer Schedule
 
-    # Submit
-    submit = SubmitField('Create')
+#     # Submit
+#     submit = SubmitField('Create')
 
-@app.route('/create_show', methods=['GET', 'POST'])
+@app.route('/create-show', methods=['GET', 'POST'])
 def createshow():
-    form = CreateShowForm()
+    form = forms.CreateShowForm()
     # Retrieve data from the MySQL table
     cursor = mydb.cursor()
     cursor.execute('SELECT Venue_ID, Venue_Name FROM VENUE') #venue select
@@ -132,7 +133,7 @@ def createshow():
         mydb.commit()
         cursor.close()
         return redirect(url_for('shows'))
-    return render_template('create_show.html', form=form)
+    return render_template('create-show.html', form=form)
 
 @app.route('/venues')
 def venues():
