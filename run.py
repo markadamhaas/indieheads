@@ -52,6 +52,15 @@ def delete_band(id):
     cursor.close()
     return redirect(url_for('bands'))
 
+@app.route("/delete_venue/<int:id>", methods=['POST'])
+def delete_venue(id):
+    cursor = mydb.cursor()
+    cursor.execute("DELETE FROM VENUE WHERE Venue_ID = %s;", (id,))
+    mydb.commit()
+    cursor.close()
+    return redirect(url_for('venues'))
+
+
 @app.route("/edit_band/<int:id>", methods=['GET', 'POST'])
 def edit_band(id):
     cursor = mydb.cursor(dictionary=True)
@@ -127,8 +136,12 @@ def createshow():
 
 @app.route('/venues')
 def venues():
-    # placeholder
-    return render_template('venues.html')
+    cursor = mydb.cursor(dictionary=True)
+    sort_option = request.args.get('sort', 'Venue_Name')  # Default sorting is by name
+    cursor.execute(f"SELECT * FROM VENUE ORDER BY {sort_option};")
+    venues = cursor.fetchall()
+    cursor.close()
+    return render_template('venues.html', venues=venues, sort=sort_option)
 
 @app.route('/equipment')
 def equipment():

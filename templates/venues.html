@@ -1,6 +1,70 @@
-<!DOCTYPE html>
-<html>
-<body>
-<h1>This is a test</h1>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}
+    Venues
+{% endblock %}
+
+{% block content %}
+<style>
+    table {
+        margin: auto;
+    }
+
+    form {
+        display: grid;
+        width: 10%; 
+        margin: 0 auto; /* centers the form horizontally */
+    }
+
+    .form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50vh; 
+    }
+
+    a {
+        color: #dddd; 
+    }
+</style>
+<table>
+    <thead>
+        <tr>
+            <th><a href="{{ url_for('venues', sort='Venue_Name') }}">Name</a></th>
+            <th><a href="{{ url_for('venues', sort='Venue_Street') }}">Street</a></th>
+            <th><a href="{{ url_for('venues', sort='Venue_City') }}">City</a></th>
+            <th><a href="{{ url_for('venues', sort='Venue_State') }}">State</a></th>
+            <th><a href="{{ url_for('venues', sort='Venue_Zip') }}">Zip</a></th>
+            <th><a href="{{ url_for('venues', sort='Venue_Price') }}">Price</a></th>
+            <th><a href="{{ url_for('venues', sort='Venue_Type') }}">Type</a></th>
+            <th><a href="{{ url_for('venues', sort='Venue_Contact') }}">Contact</a></th>
+            <th><a href="{{ url_for('venues', sort='Venue_Phone') }}">Phone</a></th>
+            <th><a href="{{ url_for('venues', sort='Venue_Email') }}">Email</a></th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for venue in venues %}
+            <tr>
+                <td>{{ venue.Venue_Name }}</td>
+                <td>{{ venue.Venue_Street }}</td>
+                <td>{{ venue.Venue_City }}</td>
+                <td>{{ venue.Venue_State }}</td>
+                <td>{{ venue.Venue_Zip }}</td>
+                <td>{{ venue.Venue_Price }}</td>
+                <td>{{ venue.Venue_Type }}</td>
+                <td>{{ venue.Venue_Contact }}</td>
+                <td>{{ venue.Venue_Phone }}</td>
+                <td>{{ venue.Venue_Email }}</td>
+                <td>
+                    <a href="#">Edit</a> <!-- needs link replaced -->
+                    <form method="post" action="{{ url_for('delete_venue', id=venue.Venue_ID) }}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
