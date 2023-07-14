@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
 from flask_wtf import FlaskForm
-from wtforms import StringField, DateField, TimeField, SubmitField
+from wtforms import StringField, DateField, IntegerField, SubmitField, SelectField
+from wtforms.validators import DataRequired
 
 app = Flask(__name__)
 
@@ -79,17 +80,51 @@ def shows():
     return render_template('shows.html')
 
 class CreateShowFrom(FlaskForm):
-    date = DateField('Date', format='%Y-%m-%d')
+    # Event Record
+    venue = SelectField('Venue', validators=[DataRequired()])
+    date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired()])
+    time = StringField('Time', validators=[DataRequired()])
+    ticketprice = IntegerField('Ticket Price', validators=[DataRequired()])
+
+    # Equipment Select
+
+    # Merch Select
+
+    # Set List
+
+    # Volunteer Schedule
+
+    # Submit
     submit = SubmitField('Create')
-    # Time = TimeField
+
 
 
 @app.route('/createshow', methods=['GET', 'POST'])
 def createshow():
     form = CreateShowFrom()
-    if form.is_submitted():
-        if form.validate():
-            result = request.form
+    # Retrieve data from the MySQL table
+    cursor = mydb.cursor()
+    cursor.execute('SELECT Venue_ID, Venue_Name FROM VENUE') #venue select
+    venueoptions = cursor.fetchall()
+    cursor.close()
+
+    # Assign options to the SelectField
+    form.venue.choices = [(row[0], row[1]) for row in venueoptions]
+
+    # Get data and create Event
+    cursor = mydb.cursor()
+    if form.validate_on_submit():
+        venue = form.venue.data
+        date = form.date.data
+        time = form.time.data
+        ticketprice = form.ticketprice.data
+        cursor.execute("INSERT INTO EVENT (Venue_ID, Event_Date, Event_Time, Tickets_Sold, Ticket_Price, Total_Expenses, Revenue) VALUES (%s, %s, %s, %s, %s, %s, %s);", 
+                    (venue, date, time, 0, ticketprice, 0, 0))
+        
+        # Save Changes
+        mydb.commit()
+        cursor.close()
+        return redirect(url_for('shows'))
     return render_template('createshow.html', form=form)
 
 @app.route('/venues')
