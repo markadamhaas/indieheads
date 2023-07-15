@@ -54,11 +54,10 @@ body {
 .band-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around; /* Adjust as per your layout requirement */
+  justify-content: space-around; 
 }
 
 .band-card {
-  flex: 0 0 calc(25% - 20px); /* This makes four items per row. Adjust the percentage and subtracted pixels as per your layout requirement */
+  flex: 0 0 calc(25% - 20px); /* This makes four items per row */
   margin: 10px; /* Half of pixels subtracted in the above line */
-  /* Add additional styles as required */
 }

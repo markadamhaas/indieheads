@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Vendors
+{% endblock %}
+
+{% block content %}
+<style>
+    table {
+        margin: auto;
+    }
+
+    form {
+        display: grid;
+        width: 10%; 
+        margin: 0 auto; /* centers the form horizontally */
+    }
+
+    .form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50vh; /* adjust as needed */
+    }
+
+    a {
+        color: #dddd; 
+    }
+
+    /* New styles added */
+    .add-vendor-container {
+        display: flex;
+        justify-content: center;
+        padding: 20px 0;
+    }
+
+    .add-vendor-button {
+        background-color: #555;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+</style>
+
+<!-- New button added -->
+<div class="add-vendor-container">
+    <a href="{{ url_for('createvendor') }}" class="add-vendor-button">Add Vendor</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th><a href="{{ url_for('vendors', sort='Vendor_Name') }}">Name</a></th>
+            <th><a href="{{ url_for('vendors', sort='Vendor_Street') }}">Street</a></th>
+            <th><a href="{{ url_for('vendors', sort='Vendor_City') }}">City</a></th>
+            <th><a href="{{ url_for('vendors', sort='Vendor_State') }}">State</a></th>
+            <th><a href="{{ url_for('vendors', sort='Vendor_Zip') }}">ZIP Code</a></th>
+            <th><a href="{{ url_for('vendors', sort='Vendor_Phone') }}">Phone Number</a></th>
+            <th><a href="{{ url_for('vendors', sort='Vendor_Email') }}">Email</a></th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for vendor in vendors %}
+            <tr>
+                <td>{{ vendor.Vendor_Name }}</td>
+                <td>{{ vendor.Vendor_Street }}</td>
+                <td>{{ vendor.Vendor_City }}</td>
+                <td>{{ vendor.Vendor_State }}</td>
+                <td>{{ vendor.Vendor_Zip }}</td>
+                <td>{{ vendor.Vendor_Phone }}</td>
+                <td>{{ vendor.Vendor_Email }}</td>
+                <td>
+                    <a href="{{ url_for('editvendor', id=vendor.Vendor_ID) }}">Edit</a>
+                    <form method="post" action="{{ url_for('delete_vendor', id=vendor.Vendor_ID) }}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
