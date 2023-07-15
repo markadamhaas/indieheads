@@ -158,40 +158,41 @@ def createshow():
                     (venue, date, time, 0, ticketprice, 0, 0))
         
         mydb.commit()
-
-        event_ID = ("SELECT last_insert_id();")
+        
+        cursor.execute("SELECT LAST_INSERT_ID();")
+        event_ID = cursor.fetchone()
         
         for i in equipment:
             cursor.execute("INSERT INTO EVENTEQUIPMENT (Event_ID, Equipment_ID) VALUES (%s, %s);",
-                           (event_ID, equipment[i]))
+                           (event_ID[0], equipment[i]))
         
         for i in merch:
             cursor.execute("INSERT INTO EVENTMERCH (Event_ID, Merch_ID, QuantitySold) VALUES (%s, %s, %s);",
-                           (event_ID, merch[i], 0))
+                           (event_ID[0], merch[i], 0))
         
         cursor.execute("INSERT INTO SETLIST (Event_ID, Band_ID, Timeslot) VALUES (%s, %s, %s);",
-                       (event_ID, band1, 1))
+                       (event_ID[0], band1, 1))
         
         cursor.execute("INSERT INTO SETLIST (Event_ID, Band_ID, Timeslot) VALUES (%s, %s, %s);",
-                       (event_ID, band2, 2))
+                       (event_ID[0], band2, 2))
         
         cursor.execute("INSERT INTO SETLIST (Event_ID, Band_ID, Timeslot) VALUES (%s, %s, %s);",
-                       (event_ID, band3, 3))
+                       (event_ID[0], band3, 3))
         
         cursor.execute("INSERT INTO SETLIST (Event_ID, Band_ID, Timeslot) VALUES (%s, %s, %s);",
-                       (event_ID, band4, 4))
+                       (event_ID[0], band4, 4))
         
         cursor.execute("INSERT INTO VOLUNTEERSCHEDULE (Event_ID, Volunteer_ID, Timeslot) VALUES (%s, %s, %s);",
-                       (event_ID, volunteer1, 1))
+                       (event_ID[0], volunteer1, 1))
         
         cursor.execute("INSERT INTO VOLUNTEERSCHEDULE (Event_ID, Volunteer_ID, Timeslot) VALUES (%s, %s, %s);",
-                       (event_ID, volunteer2, 2))
+                       (event_ID[0], volunteer2, 2))
         
         cursor.execute("INSERT INTO VOLUNTEERSCHEDULE (Event_ID, Volunteer_ID, Timeslot) VALUES (%s, %s, %s);",
-                       (event_ID, volunteer3, 3))
+                       (event_ID[0], volunteer3, 3))
         
         cursor.execute("INSERT INTO VOLUNTEERSCHEDULE (Event_ID, Volunteer_ID, Timeslot) VALUES (%s, %s, %s);",
-                       (event_ID, volunteer4, 4))
+                       (event_ID[0], volunteer4, 4))
 
         # Save Changes
         mydb.commit()
@@ -308,10 +309,11 @@ def createmerch():
         
         mydb.commit()
         
-        merch_ID = ("SELECT last_insert_id();")
+        cursor.execute("SELECT LAST_INSERT_ID();")
+        merch_ID = cursor.fetchone()
 
         cursor.execute("INSERT INTO MERCHVENDOR (Merch_ID, Vendor_ID, QuantitySupplied, Cost) VALUES (%s, %s, %s, %s);", 
-                        (merch_ID, vendor, quantity, cost))
+                        (merch_ID[0], vendor, quantity, cost))
         # Save Changes
         mydb.commit()
         cursor.close()
@@ -455,43 +457,50 @@ def editshow(id):
         volunteer3 = form.volunteer3.data
         volunteer4 = form.volunteer4.data
 
-        cursor.execute("UPDATE EVENT SET (Venue_ID, Event_Date, Event_Time, Tickets_Sold, Ticket_Price, Total_Expenses, Revenue) VALUES (%s, %s, %s, %s, %s, %s, %s) WHERE Event_ID = %s;", 
+        cursor.execute("UPDATE EVENT SET Venue_ID = %s, Event_Date = %s, Event_Time = %s, Tickets_Sold = %s, Ticket_Price = %s, Total_Expenses = %s, Revenue = %s WHERE Event_ID = %s;", 
                     (venue, date, time, 0, ticketprice, 0, 0, id))
         
         mydb.commit()
+
+        cursor.execute("DELETE FROM EVENTEQUIPMENT WHERE Event_ID = %s;",
+                       (id))
         
+        cursor.execute("DELETE FROM EVENTMERCH WHERE Event_ID = %s;",
+                       (id))
+        
+        mydb.commit()
+
         for i in equipment:
-            cursor.execute("UPDATE EVENTEQUIPMENT SET (Equipment_ID) VALUES (%s) WHERE Event_ID = %s;",
-                           (equipment[i], id))
+            cursor.execute("INSERT INTO EVENTEQUIPMENT (Event_ID, Equipment_ID) VALUES (%s, %s);",
+                           (id, equipment[i]))
         
         for i in merch:
-            cursor.execute("UPDATE EVENTMERCH SET (Merch_ID, QuantitySold) VALUES (%s, %s) WHERE Event_ID = %s;",
-                           (merch[i], 0, id))
+            cursor.execute("INSERT INTO EVENTMERCH (Event_ID, Merch_ID, QuantitySold) VALUES (%s, %s, %s);",
+                           (id, merch[i], 0))
         
-        cursor.execute("UPDATE SETLIST SET (Band_ID, Timeslot) VALUES (%s, %s) WHERE Event_ID = %s;",
+        cursor.execute("UPDATE SETLIST SET Band_ID = %s, Timeslot = %s WHERE Event_ID = %s;",
                        (band1, 1, id))
         
-        cursor.execute("UPDATE SETLIST SET (Band_ID, Timeslot) VALUES (%s, %s) WHERE Event_ID = %s;",
+        cursor.execute("UPDATE SETLIST SET Band_ID = %s, Timeslot = %s WHERE Event_ID = %s;",
                        (band2, 2, id))
         
-        cursor.execute("UPDATE SETLIST SET (Band_ID, Timeslot) VALUES (%s, %s) WHERE Event_ID = %s;",
+        cursor.execute("UPDATE SETLIST SET Band_ID = %s, Timeslot = %s WHERE Event_ID = %s;",
                        (band3, 3, id))
         
-        cursor.execute("UPDATE SETLIST SET (Band_ID, Timeslot) VALUES (%s, %s) WHERE Event_ID = %s;",
+        cursor.execute("UPDATE SETLIST SET Band_ID = %s, Timeslot = %s WHERE Event_ID = %s;",
                        (band4, 4, id))
         
-        cursor.execute("UPDATE VOLUNTEERSCHEDULE SET (Volunteer_ID, Timeslot) VALUES (%s, %s) WHERE Event_ID = %s;",
+        cursor.execute("UPDATE VOLUNTEERSCHEDULE SET Volunteer_ID = %s, Timeslot = %s WHERE Event_ID = %s;",
                        (volunteer1, id))
         
-        cursor.execute("UPDATE VOLUNTEERSCHEDULE SET (Volunteer_ID, Timeslot) VALUES (%s, %s) WHERE Event_ID = %s;",
+        cursor.execute("UPDATE VOLUNTEERSCHEDULE SET Volunteer_ID = %s, Timeslot = %s WHERE Event_ID = %s;",
                        (volunteer2, id))
         
-        cursor.execute("UPDATE VOLUNTEERSCHEDULE SET (Volunteer_ID, Timeslot) VALUES (%s, %s) WHERE Event_ID = %s;",
+        cursor.execute("UPDATE VOLUNTEERSCHEDULE SET Volunteer_ID = %s, Timeslot = %s WHERE Event_ID = %s;",
                        (volunteer3, id))
         
-        cursor.execute("UPDATE VOLUNTEERSCHEDULE SET (Volunteer_ID, Timeslot) VALUES (%s, %s) WHERE Event_ID = %s;",
+        cursor.execute("UPDATE VOLUNTEERSCHEDULE SET Volunteer_ID = %s, Timeslot = %s WHERE Event_ID = %s;",
                        (volunteer4, id))
-        
         
         # Save Changes
         mydb.commit()
@@ -520,8 +529,8 @@ def editband(id):
         instagram = form.instagram.data
         contact = form.contact.data
         contactphone = form.contactphone.data
-        cursor.execute("UPDATE BANDS SET (Band_Name, Band_Genre, Band_Instagram, B_Contact_Person, B_Contact_Number) VALUES (%s, %s, %s, %s, %s) WHERE Band_ID = %s;", 
-                        (name, genre, instagram, contact, contactphone, id))
+        cursor.execute("UPDATE BANDS SET Band_Name = %s, Band_Genre = %s, Band_Instagram = %s, B_Contact_Person = %s, B_Contact_Number = %s WHERE Band_ID = %s;", 
+                       (name, genre, instagram, contact, contactphone, id))
         # Save Changes
         mydb.commit()
         cursor.close()
@@ -547,7 +556,7 @@ def editvenue(id):
         contact = form.contact.data
         contactphone = form.contactphone.data
         contactemail = form.contactemail.data
-        cursor.execute("UPDATE VENUE SET (Venue_Name, Venue_Street, Venue_City, Venue_State, Venue_Zip, Venue_Price, Venue_Type, Venue_Contact, Venue_Phone, Venue_Email) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) WHERE Venue_ID = %s;", 
+        cursor.execute("UPDATE VENUE SET Venue_Name = %s, Venue_Street = %s, Venue_City = %s, Venue_State = %s, Venue_Zip = %s, Venue_Price = %s, Venue_Type = %s, Venue_Contact = %s, Venue_Phone = %s, Venue_Email = %s WHERE Venue_ID = %s;", 
                         (name, street, city, state, zip, price, type, contact, contactphone, contactemail, id))
         # Save Changes
         mydb.commit()
@@ -581,10 +590,10 @@ def editequipment(id):
         volunteer = form.volunteer.data
         vendor = form.vendor.data
 
-        cursor.execute("UPDATE EQUIPMENT SET (Equipment_Type, Equipment_Cost, Volunteer_ID) VALUES (%s, %s, %s) WHERE Equipment_ID = %s;", 
+        cursor.execute("UPDATE EQUIPMENT SET Equipment_Type = %s, Equipment_Cost = %s, Volunteer_ID = %s WHERE Equipment_ID = %s;", 
                         (type, cost, volunteer, id))
 
-        cursor.execute("UPDATE EQUIPMENTVENDOR SET (Vendor_ID) VALUES (%s, %s) WHERE Equipment_ID = %s;", 
+        cursor.execute("UPDATE EQUIPMENTVENDOR SET Vendor_ID = %s WHERE Equipment_ID = %s;", 
                         (vendor, id))
         # Save Changes
         mydb.commit()
@@ -613,11 +622,12 @@ def editmerch(id):
         price = form.price.data
         quantity = form.quantity.data
         vendor = form.vendor.data
-        cursor.execute("UPDATE MERCH SET (Merch_Type, Merch_Description, Merch_Price, QuantityAvailable) VALUES (%s, %s, %s, %s) WHERE Merch_ID = %s;", 
+        cost = form.cost.data
+        cursor.execute("UPDATE MERCH SET Merch_Type = %s, Merch_Description = %s, Merch_Price = %s, QuantityAvailable = %s WHERE Merch_ID = %s;", 
                         (type, description, price, quantity, id))
 
-        cursor.execute("UPDATE MERCHVENDOR SET (Vendor_ID) VALUES (%s, %s) WHERE Equipment_ID = %s;", 
-                        (vendor, id))
+        cursor.execute("UPDATE MERCHVENDOR SET Vendor_ID = %s, QuantitySupplied = %s, Cost = %s WHERE Merch_ID = %s;", 
+                        (vendor, quantity, cost, id))
         # Save Changes
         mydb.commit()
         cursor.close()
@@ -640,7 +650,7 @@ def editvendor(id):
         zip = form.zip.data
         phone = form.phone.data
         email = form.email.data
-        cursor.execute("UPDATE VENDOR (Vendor_Name, Vendor_Street, Vendor_City, Vendor_State, Vendor_Zip, Vendor_Phone, Vendor_Email) VALUES (%s, %s, %s, %s, %s, %s, %s) WHERE Vendor_ID = %s;", 
+        cursor.execute("UPDATE VENDOR Vendor_Name = %s, Vendor_Street = %s, Vendor_City = %s, Vendor_State = %s, Vendor_Zip = %s, Vendor_Phone = %s, Vendor_Email = %s WHERE Vendor_ID = %s;", 
                         (name, street, city, state, zip, phone, email, id))
         # Save Changes
         mydb.commit()
@@ -670,7 +680,7 @@ def editvolunteer(id):
             if i == True:
                 i = 1
             else: i = 0
-        cursor.execute("INSERT INTO VOLUNTEER (Volunteer_FName, Volunteer_LName, Volunteer_Email, Volunteer_Avail_1, Volunteer_Avail_2, Volunteer_Avail_3, Volunteer_Avail_4) WHERE Volunteer_ID = %s;", 
+        cursor.execute("UPDATE VOLUNTEER SET Volunteer_FName = %s, Volunteer_LName = %s, Volunteer_Email = %s, Volunteer_Avail_1 = %s, Volunteer_Avail_2 = %s, Volunteer_Avail_3 = %s, Volunteer_Avail_4 = %s WHERE Volunteer_ID = %s;", 
                         (fname, lname, phone, email, avail1, avail2, avail3, avail4, id))
         # Save Changes
         mydb.commit()

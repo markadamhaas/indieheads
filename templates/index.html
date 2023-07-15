@@ -3,183 +3,9 @@
     <head>
         <title>Indieheads Management System</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='style-index.css') }}">        
-        <script>
-            // Retrieve the checkbox values from localStorage on page load
-            document.addEventListener('DOMContentLoaded', function() {
-                loadCheckboxState('band1');
-                loadCheckboxState('band2');
-                loadCheckboxState('band3');
-                loadCheckboxState('band4');
-                loadCheckboxState('band5');
-                loadCheckboxState('band6');
-                loadCheckboxState('venue1');
-                loadCheckboxState('venue2');
-                loadCheckboxState('venue3');
-                loadCheckboxState('venue4');
-                loadCheckboxState('venue5');
-                loadCheckboxState('venue6');
-                loadCheckboxState('sound1');
-                loadCheckboxState('sound2');
-                loadCheckboxState('sound3');
-                loadCheckboxState('sound4');
-                loadCheckboxState('advertising1');
-                loadCheckboxState('advertising2');
-                loadCheckboxState('advertising3');
-                loadCheckboxState('advertising4')
-                loadCheckboxState('tickets1');
-                loadCheckboxState('tickets2');
-                loadCheckboxState('tickets3');
-                loadCheckboxState('tickets4');
-                loadCheckboxState('tickets5');
-                loadCheckboxState('tickets6');
-                loadCheckboxState('tickets7');
-                loadCheckboxState('tickets8');
-                loadCheckboxState('tickets9');
-                loadCheckboxState('tickets10');
-            });
-
-            // Save the checkbox value to localStorage whenever it is changed
-            document.getElementById('band1').addEventListener('change', function() {
-                saveCheckboxState('band1');
-            });
-
-            document.getElementById('band2').addEventListener('change', function() {
-                saveCheckboxState('band2');
-            });
-
-            document.getElementById('band3').addEventListener('change', function() {
-                saveCheckboxState('band3');
-            });
-
-            document.getElementById('band4').addEventListener('change', function() {
-                saveCheckboxState('band4');
-            });
-
-            document.getElementById('band5').addEventListener('change', function() {
-                saveCheckboxState('band5');
-            });
-
-            document.getElementById('band6').addEventListener('change', function() {
-                saveCheckboxState('band6');
-            });
-
-
-            document.getElementById('venue1').addEventListener('change', function() {
-                saveCheckboxState('venue1');
-            });
-
-            document.getElementById('venue2').addEventListener('change', function() {
-                saveCheckboxState('venue2');
-            });
-
-            document.getElementById('venue3').addEventListener('change', function() {
-                saveCheckboxState('venue3');
-            });
-
-            document.getElementById('venue4').addEventListener('change', function() {
-                saveCheckboxState('venue4');
-            });
-
-            document.getElementById('venue5').addEventListener('change', function() {
-                saveCheckboxState('venue5');
-            });
-
-            document.getElementById('venue6').addEventListener('change', function() {
-                saveCheckboxState('venue6');
-            });
-
-
-            document.getElementById('sound1').addEventListener('change', function() {
-                saveCheckboxState('sound1');
-            });
-
-            document.getElementById('sound2').addEventListener('change', function() {
-                saveCheckboxState('sound2');
-            });
-
-            document.getElementById('sound3').addEventListener('change', function() {
-                saveCheckboxState('sound3');
-            });
-
-            document.getElementById('sound4').addEventListener('change', function() {
-                saveCheckboxState('sound4');
-            });
-
-
-            document.getElementById('advertising1').addEventListener('change', function() {
-                saveCheckboxState('advertising1');
-            });
-
-            document.getElementById('advertising2').addEventListener('change', function() {
-                saveCheckboxState('advertising2');
-            });
-
-            document.getElementById('advertising3').addEventListener('change', function() {
-                saveCheckboxState('advertising3');
-            });
-
-            document.getElementById('advertising4').addEventListener('change', function() {
-                saveCheckboxState('advertising4');
-            });
-
-
-            document.getElementById('tickets1').addEventListener('change', function() {
-                saveCheckboxState('tickets1');
-            });
-
-            document.getElementById('tickets2').addEventListener('change', function() {
-                saveCheckboxState('tickets2');
-            });
-
-            document.getElementById('tickets3').addEventListener('change', function() {
-                saveCheckboxState('tickets3');
-            });
-
-            document.getElementById('tickets4').addEventListener('change', function() {
-                saveCheckboxState('tickets4');
-            });
-
-            document.getElementById('tickets5').addEventListener('change', function() {
-                saveCheckboxState('tickets5');
-            });
-
-            document.getElementById('tickets6').addEventListener('change', function() {
-                saveCheckboxState('tickets6');
-            });
-
-            document.getElementById('tickets7').addEventListener('change', function() {
-                saveCheckboxState('tickets7');
-            });
-
-            document.getElementById('tickets8').addEventListener('change', function() {
-                saveCheckboxState('tickets8');
-            });
-
-            document.getElementById('tickets9').addEventListener('change', function() {
-                saveCheckboxState('tickets9');
-            });
-
-            document.getElementById('tickets10').addEventListener('change', function() {
-                saveCheckboxState('tickets10');
-            });
-
-            // Function to save checkbox state to localStorage
-            function saveCheckboxState(checkboxId) {
-                var checkbox = document.getElementById(checkboxId);
-                localStorage.setItem(checkboxId, checkbox.checked);
-            }
-
-            // Function to load checkbox state from localStorage
-            function loadCheckboxState(checkboxId) {
-                var checkbox = document.getElementById(checkboxId);
-                var checkboxState = localStorage.getItem(checkboxId);
-                if (checkboxState === 'true') {
-                    checkbox.checked = true;
-                }
-            }
-        </script>
     </head>    
 <body>
+
     <!-- Navigation Menu -->
     <div class="nav">
         <a href="{{ url_for('index_page') }}"><img src="{{ url_for('static', filename='indiehead.png') }}" alt="Home"></a>
@@ -328,5 +154,181 @@
         </div>
     </form>
 </div>
+<!-- Checklist Script -->
+<script>
+// Retrieve the checkbox values from localStorage on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadCheckboxState('band1');
+    loadCheckboxState('band2');
+    loadCheckboxState('band3');
+    loadCheckboxState('band4');
+    loadCheckboxState('band5');
+    loadCheckboxState('band6');
+    loadCheckboxState('venue1');
+    loadCheckboxState('venue2');
+    loadCheckboxState('venue3');
+    loadCheckboxState('venue4');
+    loadCheckboxState('venue5');
+    loadCheckboxState('venue6');
+    loadCheckboxState('sound1');
+    loadCheckboxState('sound2');
+    loadCheckboxState('sound3');
+    loadCheckboxState('sound4');
+    loadCheckboxState('advertising1');
+    loadCheckboxState('advertising2');
+    loadCheckboxState('advertising3');
+    loadCheckboxState('advertising4')
+    loadCheckboxState('tickets1');
+    loadCheckboxState('tickets2');
+    loadCheckboxState('tickets3');
+    loadCheckboxState('tickets4');
+    loadCheckboxState('tickets5');
+    loadCheckboxState('tickets6');
+    loadCheckboxState('tickets7');
+    loadCheckboxState('tickets8');
+    loadCheckboxState('tickets9');
+    loadCheckboxState('tickets10');
+});
+
+// Save the checkbox value to localStorage whenever it is changed
+document.getElementById('band1').addEventListener('change', function() {
+    saveCheckboxState('band1');
+});
+
+document.getElementById('band2').addEventListener('change', function() {
+    saveCheckboxState('band2');
+});
+
+document.getElementById('band3').addEventListener('change', function() {
+    saveCheckboxState('band3');
+});
+
+document.getElementById('band4').addEventListener('change', function() {
+    saveCheckboxState('band4');
+});
+
+document.getElementById('band5').addEventListener('change', function() {
+    saveCheckboxState('band5');
+});
+
+document.getElementById('band6').addEventListener('change', function() {
+    saveCheckboxState('band6');
+});
+
+
+document.getElementById('venue1').addEventListener('change', function() {
+    saveCheckboxState('venue1');
+});
+
+document.getElementById('venue2').addEventListener('change', function() {
+    saveCheckboxState('venue2');
+});
+
+document.getElementById('venue3').addEventListener('change', function() {
+    saveCheckboxState('venue3');
+});
+
+document.getElementById('venue4').addEventListener('change', function() {
+    saveCheckboxState('venue4');
+});
+
+document.getElementById('venue5').addEventListener('change', function() {
+    saveCheckboxState('venue5');
+});
+
+document.getElementById('venue6').addEventListener('change', function() {
+    saveCheckboxState('venue6');
+});
+
+
+document.getElementById('sound1').addEventListener('change', function() {
+    saveCheckboxState('sound1');
+});
+
+document.getElementById('sound2').addEventListener('change', function() {
+    saveCheckboxState('sound2');
+});
+
+document.getElementById('sound3').addEventListener('change', function() {
+    saveCheckboxState('sound3');
+});
+
+document.getElementById('sound4').addEventListener('change', function() {
+    saveCheckboxState('sound4');
+});
+
+
+document.getElementById('advertising1').addEventListener('change', function() {
+    saveCheckboxState('advertising1');
+});
+
+document.getElementById('advertising2').addEventListener('change', function() {
+    saveCheckboxState('advertising2');
+});
+
+document.getElementById('advertising3').addEventListener('change', function() {
+    saveCheckboxState('advertising3');
+});
+
+document.getElementById('advertising4').addEventListener('change', function() {
+    saveCheckboxState('advertising4');
+});
+
+
+document.getElementById('tickets1').addEventListener('change', function() {
+    saveCheckboxState('tickets1');
+});
+
+document.getElementById('tickets2').addEventListener('change', function() {
+    saveCheckboxState('tickets2');
+});
+
+document.getElementById('tickets3').addEventListener('change', function() {
+    saveCheckboxState('tickets3');
+});
+
+document.getElementById('tickets4').addEventListener('change', function() {
+    saveCheckboxState('tickets4');
+});
+
+document.getElementById('tickets5').addEventListener('change', function() {
+    saveCheckboxState('tickets5');
+});
+
+document.getElementById('tickets6').addEventListener('change', function() {
+    saveCheckboxState('tickets6');
+});
+
+document.getElementById('tickets7').addEventListener('change', function() {
+    saveCheckboxState('tickets7');
+});
+
+document.getElementById('tickets8').addEventListener('change', function() {
+    saveCheckboxState('tickets8');
+});
+
+document.getElementById('tickets9').addEventListener('change', function() {
+    saveCheckboxState('tickets9');
+});
+
+document.getElementById('tickets10').addEventListener('change', function() {
+    saveCheckboxState('tickets10');
+});
+
+// Function to save checkbox state to localStorage
+function saveCheckboxState(checkboxId) {
+    var checkbox = document.getElementById(checkboxId);
+    localStorage.setItem(checkboxId, checkbox.checked);
+}
+
+// Function to load checkbox state from localStorage
+function loadCheckboxState(checkboxId) {
+    var checkbox = document.getElementById(checkboxId);
+    var checkboxState = localStorage.getItem(checkboxId);
+    if (checkboxState === 'true') {
+        checkbox.checked = true;
+    }
+}
+</script>
 </body>
 </html>

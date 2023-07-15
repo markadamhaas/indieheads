@@ -79,6 +79,7 @@ CREATE TABLE EQUIPMENT (
    Equipment_Cost INT,
    Volunteer_ID INT,
    FOREIGN KEY (Volunteer_ID) REFERENCES VOLUNTEER(Volunteer_ID)
+    ON DELETE SET NULL
 );
 
 INSERT INTO EQUIPMENT (Equipment_Type, Equipment_Cost, Volunteer_ID)
@@ -172,7 +173,9 @@ CREATE TABLE EQUIPMENTVENDOR (
     Equipment_ID INT,
     Vendor_ID INT,
     FOREIGN KEY (Equipment_ID) REFERENCES EQUIPMENT(Equipment_ID),
+        ON DELETE CASCADE
     FOREIGN KEY (Vendor_ID) REFERENCES VENDOR(Vendor_ID)
+        ON DELETE SET NULL
 );
 
 -- UREC --
@@ -202,6 +205,7 @@ CREATE TABLE EVENT (
     Total_Expenses INT,
     Revenue INT,
     FOREIGN KEY (Venue_ID) REFERENCES VENUE(Venue_ID)
+        ON DELETE SET NULL
 );
 
 
@@ -215,7 +219,9 @@ CREATE TABLE EVENTEQUIPMENT (
     Event_ID INT,
     Equipment_ID INT,
     FOREIGN KEY (Event_ID) REFERENCES EVENT(Event_ID),
+        ON DELETE CASCADE
     FOREIGN KEY (Equipment_ID) REFERENCES EQUIPMENT(Equipment_ID)
+        ON DELETE CASCADE
 );
 
 INSERT INTO EVENTEQUIPMENT (Event_ID, Equipment_ID) 
@@ -235,9 +241,10 @@ CREATE TABLE EVENTMERCH (
     Event_ID INT,
     Merch_ID INT,
     QuantitySold INT,
-    Cost DECIMAL,
     FOREIGN KEY (Event_ID) REFERENCES EVENT(Event_ID),
+        ON DELETE CASCADE
     FOREIGN KEY (Merch_ID) REFERENCES MERCH(Merch_ID)
+        ON DELETE CASCADE
 );
 
 INSERT INTO EVENTMERCH (Event_ID, Merch_ID, QuantitySold)
@@ -258,8 +265,11 @@ CREATE TABLE MERCHVENDOR (
     Merch_ID INT,
     Vendor_ID INT,
     QuantitySupplied INT,
+    Cost DECIMAL,
     FOREIGN KEY (Merch_ID) REFERENCES MERCH(Merch_ID),
+        ON DELETE CASCADE
     FOREIGN KEY (Vendor_ID) REFERENCES VENDOR(Vendor_ID)
+        ON DELETE SET NULL
 );
 
 INSERT INTO MERCHVENDOR (Merch_ID, Vendor_ID, QuantitySupplied)
@@ -276,7 +286,9 @@ CREATE TABLE SETLIST (
     Band_ID INT,
     Timeslot INT,
     FOREIGN KEY (Event_ID) REFERENCES EVENT(Event_ID),
+        ON DELETE CASCADE
     FOREIGN KEY (Band_ID) REFERENCES BANDS(Band_ID)
+        ON DELETE SET NULL
 );
 
 INSERT INTO SETLIST (Event_ID, Band_ID, Timeslot) 
@@ -299,7 +311,9 @@ CREATE TABLE VOLUNTEERSCHEDULE (
     Volunteer_ID INT,
     Timeslot INT,
     FOREIGN KEY (Event_ID) REFERENCES EVENT(Event_ID),
+        ON DELETE CASCADE
     FOREIGN KEY (Volunteer_ID) REFERENCES VOLUNTEER(Volunteer_ID)
+        ON DELETE SET NULL
 );
 
 INSERT INTO VOLUNTEERSCHEDULE (Event_ID, Volunteer_ID, Timeslot)
