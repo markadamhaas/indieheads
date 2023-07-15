@@ -86,7 +86,7 @@ def createshow():
 
     # Retrieve data from the MySQL table For Volunteer
     cursor = mydb.cursor()
-    cursor.execute('SELECT Volunteer_ID, Volunteer_Name FROM VOLUNTEER')
+    cursor.execute('SELECT Volunteer_ID, Volunteer_FName FROM VOLUNTEER')
     volunteeroptions = cursor.fetchall()
     cursor.close()
 
@@ -175,22 +175,24 @@ def createshow():
 def createband():
     form = forms.CreateBandForm()
 
-    # Get data and create Band
-    cursor = mydb.cursor()
-    if form.validate_on_submit():
+    if request.method == 'POST':  # Check if it's a POST request
         name = form.name.data
         genre = form.genre.data
         instagram = form.instagram.data
         contact = form.contact.data
         contactphone = form.contactphone.data
+
+        cursor = mydb.cursor()
         cursor.execute("INSERT INTO BANDS (Band_Name, Band_Genre, Band_Instagram, B_Contact_Person, B_Contact_Number) VALUES (%s, %s, %s, %s, %s);", 
                         (name, genre, instagram, contact, contactphone))
-        
-        # Save Changes
         mydb.commit()
         cursor.close()
+        
         return redirect(url_for('bands'))
+        
     return render_template('create-band.html', form=form)
+
+
 
 @app.route("/create-venue", methods=['GET', 'POST'])
 def createvenue():

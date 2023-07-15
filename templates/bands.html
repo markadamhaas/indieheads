@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Bands
+    Add Bands
 {% endblock %}
 
 {% block content %}
@@ -26,7 +26,32 @@
     a {
         color: #dddd; 
     }
+
+    /* New styles added */
+    .add-band-container {
+        display: flex;
+        justify-content: center;
+        padding: 20px 0;
+    }
+
+    .add-band-button {
+        background-color: #555;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
 </style>
+
+<!-- New button added -->
+<div class="add-band-container">
+    <a href="{{ url_for('createband') }}" class="add-band-button">Add Band</a>
+</div>
+
 <table>
     <thead>
         <tr>
