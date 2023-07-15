@@ -32,15 +32,60 @@ def bands():
 
 @app.route('/shows')
 def shows():
+    cursor = mydb.cursor()
+    cursor.execute("SELECT * FROM EVENT")
+    events = cursor.fetchall()
+    for event in events:
+        #misc cost
+        misc = event[6]
+        
+        #equipment cost
+        equipmentcost = 0
+        cursor.execute("SELECT Equipment_Cost FROM EQUIPMENT JOIN EVENTEQUIPMENT ON EQUIPMENT.Equipment_ID=EVENTEQUIPMENT.Equipment_ID WHERE EVENTEQUIPMENT.Event_ID=%s;",
+                       (event[0],))
+        equipmentcosts = cursor.fetchall()
+        for equipment in equipmentcosts:
+            equipmentcost+=equipment[0]
+
+        #merch cost
+        merchcost = 0
+        cursor.execute("SELECT Cost FROM MERCHVENDOR JOIN EVENTMERCH ON MERCHVENDOR.Merch_ID=EVENTMERCH.Merch_ID WHERE EVENTMERCH.Event_ID=%s;",
+                       (event[0],))
+        merchcosts = cursor.fetchall()
+        for merch in merchcosts:
+            merchcost+=merch[0]
+
+        #total cost
+        totalcost = misc + equipmentcost + merchcost
+
+        #merch revenue
+        merchrevenue=0
+        cursor.execute("SELECT Merch_Price FROM MERCH JOIN EVENTMERCH ON MERCH.Merch_ID=EVENTMERCH.Merch_ID WHERE EVENTMERCH.Event_ID=%s;",
+                       (event[0],))
+        merchprices = cursor.fetchall()
+        cursor.execute("Select QuantitySold From EVENTMERCH WHERE Event_ID=%s;",
+                       (event[0],))
+        merchquantities = cursor.fetchall()
+        print(merchquantities)
+        merchrevenue = sum(x[0] * y[0] for x, y in zip(merchprices,merchquantities))
+
+        #ticket revenue
+        ticketrevenue = event[4] * event[5]
+
+        #total revenue
+        totalrevenue = merchrevenue + ticketrevenue
+
+        #net
+        net = totalrevenue - totalcost
+        cursor.execute("UPDATE EVENT SET Total_Expenses = %s, Revenue = %s WHERE Event_ID = %s;", 
+                    (totalcost, totalrevenue, event[0]))
+        cursor.close
     cursor = mydb.cursor(dictionary=True)
-
-    cursor.execute()
-
     sort_option = request.args.get('sort', 'Event_Date')  # Default sorting is by name
     cursor.execute(f"SELECT * FROM EVENT ORDER BY {sort_option};")
     shows = cursor.fetchall()
     cursor.close()
-    return render_template('shows.html', shows=shows, sort=sort_option)
+    return render_template('shows.html', shows=shows, sort=sort_option, net = net)
 
 @app.route('/venues')
 def venues():
@@ -686,8 +731,8 @@ def editvolunteer(id):
         # Save Changes
         mydb.commit()
         cursor.close()
-        return redirect(url_for('vendor'))
-    return render_template('edit-vendor.html', form=form, record=record)
+        return redirect(url_for('volunteer'))
+    return render_template('edit-volunteer.html', form=form, record=record)
 
 ###########################################################################################################################################################################
     
