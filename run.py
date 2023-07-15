@@ -77,8 +77,8 @@ def merch():
 def vendor():
     cursor = mydb.cursor(dictionary=True)
     sort_option = request.args.get('sort', 'Vendor_Name')  # Default sorting is by name
-    cursor.execute(f"SELECT * FROM VENUE ORDER BY {sort_option};")
-    venues = cursor.fetchall()
+    cursor.execute(f"SELECT * FROM VENDORS ORDER BY {sort_option};")
+    vendors = cursor.fetchall()
     cursor.close()
     return render_template('vendor.html', vendors=vendors, sort=sort_option)
 

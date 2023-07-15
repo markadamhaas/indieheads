@@ -28,7 +28,7 @@ class CreateShowForm(FlaskForm):
     volunteer4 = SelectField("Volunteer 4", validators=[DataRequired()])
 
     # Submit
-    submit = SubmitField('Create')
+    submit = SubmitField('Save')
 
 class UpdateShowForm(FlaskForm):
     # Event Record
@@ -58,7 +58,7 @@ class UpdateShowForm(FlaskForm):
     volunteer4 = SelectField("Volunteer 4", validators=[DataRequired()])
 
     # Submit
-    submit = SubmitField('Create')
+    submit = SubmitField('Save')
 
 class CreateBandForm(FlaskForm):
     # Band Record
@@ -69,7 +69,7 @@ class CreateBandForm(FlaskForm):
     contactphone = StringField('Contact Phone Number')
     
     # Submit
-    submit = SubmitField('Create')
+    submit = SubmitField('Save')
 
 class CreateVenueForm(FlaskForm):
     # Venue Record
@@ -85,7 +85,7 @@ class CreateVenueForm(FlaskForm):
     contactemail = StringField('Contact Email')
     
     # Submit
-    submit = SubmitField('Create')
+    submit = SubmitField('Save')
 
 class CreateEquipmentForm(FlaskForm):
     # Equipment Record
@@ -97,7 +97,7 @@ class CreateEquipmentForm(FlaskForm):
     vendor = SelectField('Vendor', validators=[DataRequired()])
     
     # Submit
-    submit = SubmitField('Create')
+    submit = SubmitField('Save')
 
 class CreateMerchForm(FlaskForm):
     # Merch Record
@@ -111,7 +111,7 @@ class CreateMerchForm(FlaskForm):
     cost = DecimalField('Cost', validators=[DataRequired()])
 
     # Submit
-    submit = SubmitField('Create')
+    submit = SubmitField('Save')
 
 class CreateVendorForm(FlaskForm):
     # Vendor Record
@@ -124,7 +124,7 @@ class CreateVendorForm(FlaskForm):
     email = StringField('Email')
     
     # Submit
-    submit = SubmitField('Create')
+    submit = SubmitField('Save')
 
 class CreateVolunteerForm(FlaskForm):
     # Volunteer Record
@@ -138,4 +138,4 @@ class CreateVolunteerForm(FlaskForm):
     avail4 = BooleanField('Time Slot 4')
     
     # Submit
-    submit = SubmitField('Create')
+    submit = SubmitField('Save')
