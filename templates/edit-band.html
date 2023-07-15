@@ -1,34 +1,33 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Edit Band - {{ band['Band_Name'] }}
+    Edit Band {{record.Band_ID}}
 {% endblock %}
 
 {% block content %}
-
-<h1>Edit Band</h1>
-
-<form method="post" style="width: 300px; margin: auto;">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="Band_Name" value="{{ band['Band_Name'] }}" style="width: 100%; margin-bottom: 10px;">
-
-    <label for="location">Location:</label>
-    <input type="text" id="location" name="Band_Location" value="{{ band['Band_Location'] }}" style="width: 100%; margin-bottom: 10px;">
-
-    <label for="genre">Genre:</label>
-    <input type="text" id="genre" name="Band_Genre" value="{{ band['Band_Genre'] }}" style="width: 100%; margin-bottom: 10px;">
-
-    <label for="instagram">Instagram:</label>
-    <input type="text" id="instagram" name="Band_Instagram" value="{{ band['Band_Instagram'] }}" style="width: 100%; margin-bottom: 10px;">
-
-    <label for="contact_person">Contact Person:</label>
-    <input type="text" id="contact_person" name="B_Contact_Person" value="{{ band['B_Contact_Person'] }}" style="width: 100%; margin-bottom: 10px;">
-
-    <label for="contact_number">Contact Number:</label>
-    <input type="text" id="contact_number" name="B_Contact_Number" value="{{ band['B_Contact_Number'] }}" style="width: 100%; margin-bottom: 10px;">
-
-    <input type="submit" value="Submit" style="width: 100%; padding: 10px;">
-</form>
-
+<h2>Edit Band {{record.Band_ID}} </h2>
+    <form action="" method="post">
+        <p>
+            {{form.name.label}}
+            {{form.name()}}
+        </p>
+        <p>
+            {{form.genre.label}}
+            {{form.genre()}}
+        </p>
+        <p>
+            {{form.instagram.label}}
+            {{form.instagram()}}
+        </p>
+        <p>
+            {{form.contact.label}}
+            {{form.contact()}}
+        </p>
+        <p>
+            {{form.contactphone.label}}
+            {{form.contactphone()}}
+        </p>
+        <p>{{form.submit()}}</p>
+    </form>
 {% endblock %}
 

@@ -49,7 +49,7 @@
                 <td>{{ band.B_Contact_Person }}</td>
                 <td>{{ band.B_Contact_Number }}</td>
                 <td>
-                    <a href='#'>Edit</a> <!-- needs link replaced -->
+                    <a href="{{ url_for('editband', id=band.Band_ID) }}">Edit</a>
                     <form method="post" action="{{ url_for('delete_band', id=band.Band_ID) }}">
                         <button type="submit">Delete</button>
                     </form>

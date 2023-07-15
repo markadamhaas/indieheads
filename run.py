@@ -340,26 +340,312 @@ def createvolunteer():
 
 ###########################################################################################################################################################################
 
-@app.route("/edit_band/<int:id>", methods=['GET', 'POST'])
-def edit_band(id):
+@app.route("/edit-show/<int:id>", methods=['GET', 'POST'])
+def editshow(id):
+    # Get record
     cursor = mydb.cursor(dictionary=True)
-    if request.method == 'POST':
-        bandName = request.form.get('Band_Name')
-        bandGenre = request.form.get('Band_Genre')
-        bandLocation = request.form.get('Band_Location')
-        bandInstagram = request.form.get('Band_Instagram')
-        bandContactPerson = request.form.get('B_Contact_Person')
-        bandContactPhone = request.form.get('B_Contact_Number')
-        cursor.execute("UPDATE BANDS SET Band_Name = %s, Band_Genre = %s, Band_Location = %s, Band_Instagram = %s, B_Contact_Person = %s, B_Contact_Number = %s WHERE Band_ID = %s;", 
-                        (bandName, bandGenre, bandLocation, bandInstagram, bandContactPerson, bandContactPhone, id,))
+    cursor.execute('SELECT * FROM EVENT WHERE EVENT_ID = %s', (id,))
+    record = cursor.fetchone()
+    # cursor.execute('SELECT * FROM your_table WHERE id = %s', (id))
+    # record = cursor.fetchone()
+
+    form = forms.CreateShowForm()
+    # form.name.data
+    # form.genre.data
+    # form.instagram.data
+    # form.contact.data
+    # form.contactphone.data
+
+    form = forms.CreateShowForm()
+
+    # Retrieve data from the MySQL table For Venue
+    cursor = mydb.cursor()
+    cursor.execute('SELECT Venue_ID, Venue_Name FROM VENUE')
+    venueoptions = cursor.fetchall()
+    cursor.close()
+
+    # Retrieve data from the MySQL table For Equipment
+    cursor = mydb.cursor()
+    cursor.execute('SELECT Equipment_ID, Equipment_Type FROM EQUIPMENT')
+    equipmentoptions = cursor.fetchall()
+    cursor.close()
+
+    # Retrieve data from the MySQL table For Merch
+    cursor = mydb.cursor()
+    cursor.execute('SELECT Merch_ID, Merch_Type FROM MERCH')
+    merchoptions = cursor.fetchall()
+    cursor.close()
+
+    # Retrieve data from the MySQL table For Band
+    cursor = mydb.cursor()
+    cursor.execute('SELECT Band_ID, Band_Name FROM BANDS')
+    bandoptions = cursor.fetchall()
+    cursor.close()
+
+    # Retrieve data from the MySQL table For Volunteer
+    cursor = mydb.cursor()
+    cursor.execute('SELECT Volunteer_ID, Volunteer_Name FROM VOLUNTEER')
+    volunteeroptions = cursor.fetchall()
+    cursor.close()
+
+    # Assign options to the SelectField
+    form.venue.choices = [(row[0], row[1]) for row in venueoptions]
+    form.equipment.choices = [(row[0], row[1]) for row in equipmentoptions]
+    form.merch.choices = [(row[0], row[1]) for row in merchoptions]
+    form.band1.choices = [(row[0], row[1]) for row in bandoptions]
+    form.band2.choices = [(row[0], row[1]) for row in bandoptions]
+    form.band3.choices = [(row[0], row[1]) for row in bandoptions]
+    form.band4.choices = [(row[0], row[1]) for row in bandoptions]
+    form.volunteer1.choices = [(row[0], row[1]) for row in volunteeroptions]
+    form.volunteer2.choices = [(row[0], row[1]) for row in volunteeroptions]
+    form.volunteer3.choices = [(row[0], row[1]) for row in volunteeroptions]
+    form.volunteer4.choices = [(row[0], row[1]) for row in volunteeroptions]
+    
+    # Get data and create Event
+    cursor = mydb.cursor()
+    record = cursor.fetchone()
+    if form.validate_on_submit():
+        venue = form.venue.data
+        date = form.date.data
+        time = form.time.data
+        ticketprice = form.ticketprice.data
+
+        equipment = form.equipment.data
+        
+        merch = form.merch.data
+
+        band1 = form.band1.data
+        band2 = form.band2.data
+        band3 = form.band3.data
+        band4 = form.band4.data
+
+        volunteer1 = form.volunteer1.data
+        volunteer2 = form.volunteer2.data
+        volunteer3 = form.volunteer3.data
+        volunteer4 = form.volunteer4.data
+
+        cursor.execute("UPDATE EVENT SET (Venue_ID, Event_Date, Event_Time, Tickets_Sold, Ticket_Price, Total_Expenses, Revenue) VALUES (%s, %s, %s, %s, %s, %s, %s) WHERE Event_ID = %s;", 
+                    (venue, date, time, 0, ticketprice, 0, 0, id))
+        
+        mydb.commit()
+        
+        for i in equipment:
+            cursor.execute("UPDATE EVENTEQUIPMENT SET (Equipment_ID) VALUES (%s) WHERE Event_ID = %s;",
+                           (equipment[i], id))
+        
+        for i in merch:
+            cursor.execute("UPDATE EVENTMERCH SET (Merch_ID, QuantitySold) VALUES (%s, %s) WHERE Event_ID = %s;",
+                           (merch[i], 0, id))
+        
+        cursor.execute("UPDATE SETLIST SET (Band_ID, Timeslot) VALUES (%s, %s) WHERE Event_ID = %s;",
+                       (band1, 1, id))
+        
+        cursor.execute("UPDATE SETLIST SET (Band_ID, Timeslot) VALUES (%s, %s) WHERE Event_ID = %s;",
+                       (band2, 2, id))
+        
+        cursor.execute("UPDATE SETLIST SET (Band_ID, Timeslot) VALUES (%s, %s) WHERE Event_ID = %s;",
+                       (band3, 3, id))
+        
+        cursor.execute("UPDATE SETLIST SET (Band_ID, Timeslot) VALUES (%s, %s) WHERE Event_ID = %s;",
+                       (band4, 4, id))
+        
+        cursor.execute("UPDATE VOLUNTEERSCHEDULE SET (Volunteer_ID, Timeslot) VALUES (%s, %s) WHERE Event_ID = %s;",
+                       (volunteer1, id))
+        
+        cursor.execute("UPDATE VOLUNTEERSCHEDULE SET (Volunteer_ID, Timeslot) VALUES (%s, %s) WHERE Event_ID = %s;",
+                       (volunteer2, id))
+        
+        cursor.execute("UPDATE VOLUNTEERSCHEDULE SET (Volunteer_ID, Timeslot) VALUES (%s, %s) WHERE Event_ID = %s;",
+                       (volunteer3, id))
+        
+        cursor.execute("UPDATE VOLUNTEERSCHEDULE SET (Volunteer_ID, Timeslot) VALUES (%s, %s) WHERE Event_ID = %s;",
+                       (volunteer4, id))
+        
+        
+        # Save Changes
+        mydb.commit()
+        cursor.close()
+        return redirect(url_for('shows'))
+    return render_template('edit-show.html', form=form, record=record)
+
+
+@app.route("/edit-band/<int:id>", methods=['GET', 'POST'])
+def editband(id):
+    # Get record
+    cursor = mydb.cursor(dictionary=True)
+    cursor.execute('SELECT * FROM BANDS WHERE Band_ID = %s', (id,))
+    record = cursor.fetchone()
+
+    form = forms.CreateBandForm()
+    # form.name.data
+    # form.genre.data
+    # form.instagram.data
+    # form.contact.data
+    # form.contactphone.data
+
+    if form.validate_on_submit():
+        name = form.name.data
+        genre = form.genre.data
+        instagram = form.instagram.data
+        contact = form.contact.data
+        contactphone = form.contactphone.data
+        cursor.execute("UPDATE BANDS SET (Band_Name, Band_Genre, Band_Instagram, B_Contact_Person, B_Contact_Number) VALUES (%s, %s, %s, %s, %s) WHERE Band_ID = %s;", 
+                        (name, genre, instagram, contact, contactphone, id))
+        # Save Changes
         mydb.commit()
         cursor.close()
         return redirect(url_for('bands'))
-    else:
-        cursor.execute("SELECT * FROM BANDS WHERE Band_ID = %s;", (id,))
-        band = cursor.fetchone()
+    return render_template('edit-band.html', form=form, record=record)
+
+@app.route("/edit-venue/<int:id>", methods=['GET', 'POST'])
+def editvenue(id):
+    # Get record
+    cursor = mydb.cursor(dictionary=True)
+    cursor.execute('SELECT * FROM VENUE WHERE VENUE_ID = %s', (id,))
+    record = cursor.fetchone()
+    form = forms.CreateVenueForm()
+
+    if form.validate_on_submit():
+        name = form.name.data
+        street = form.street.data
+        city = form.city.data
+        state = form.state.data
+        zip = form.zip.data
+        price = form.price.data
+        type = form.type.data
+        contact = form.contact.data
+        contactphone = form.contactphone.data
+        contactemail = form.contactemail.data
+        cursor.execute("UPDATE VENUE SET (Venue_Name, Venue_Street, Venue_City, Venue_State, Venue_Zip, Venue_Price, Venue_Type, Venue_Contact, Venue_Phone, Venue_Email) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) WHERE Venue_ID = %s;", 
+                        (name, street, city, state, zip, price, type, contact, contactphone, contactemail, id))
+        # Save Changes
+        mydb.commit()
         cursor.close()
-        return render_template('edit-band.html', band=band)
+        return redirect(url_for('venues'))
+    return render_template('edit-venue.html', form=form, record=record)
+
+@app.route("/edit-equipment/<int:id>", methods=['GET', 'POST'])
+def editequipment(id):
+    # Get record
+    cursor = mydb.cursor(dictionary=True)
+    cursor.execute('SELECT * FROM EQUIPMENT WHERE Equipment_ID = %s', (id,))
+    record = cursor.fetchone()
+    form = forms.CreateEquipmentForm()
+
+    cursor.execute('SELECT Volunteer_ID, Volunteer_FName, Volunteer_LName FROM VOLUNTEER') #volunteer select
+    volunteeroptions = cursor.fetchall()
+    cursor.execute('SELECT Vendor_ID, Vendor_Name FROM VENDOR') #vendor select
+    vendoroptions = cursor.fetchall()
+    cursor.close()
+
+    # Assign options to the SelectField
+    form.volunteer.choices = [(row[0], row[1]+row[2]) for row in volunteeroptions]
+    form.vendor.choices = [(row[0], row[1]) for row in vendoroptions]
+
+    # Get data and create Equipment
+    cursor = mydb.cursor()
+    if form.validate_on_submit():
+        type = form.type.data
+        cost = form.cost.data
+        volunteer = form.volunteer.data
+        vendor = form.vendor.data
+
+        cursor.execute("UPDATE EQUIPMENT SET (Equipment_Type, Equipment_Cost, Volunteer_ID) VALUES (%s, %s, %s) WHERE Equipment_ID = %s;", 
+                        (type, cost, volunteer, id))
+
+        cursor.execute("UPDATE EQUIPMENTVENDOR SET (Vendor_ID) VALUES (%s, %s) WHERE Equipment_ID = %s;", 
+                        (vendor, id))
+        # Save Changes
+        mydb.commit()
+        cursor.close()
+        return redirect(url_for('equipment'))
+    return render_template('edit-equipment.html', form=form, record=record)
+
+@app.route("/edit-merch/<int:id>", methods=['GET', 'POST'])
+def editmerch(id):
+    # Get record
+    cursor = mydb.cursor(dictionary=True)
+    cursor.execute('SELECT * FROM MERCH WHERE Merch_ID = %s', (id,))
+    record = cursor.fetchone()
+    form = forms.CreateMerchForm()
+
+    # Get data and create Merch
+    cursor = mydb.cursor()
+    cursor.execute('SELECT Vendor_ID, Vendor_Name FROM VENDOR') #vendor select
+    vendoroptions = cursor.fetchall()
+    form.vendor.choices = [(row[0], row[1]) for row in vendoroptions]
+
+    # Get data and create Equipment
+    if form.validate_on_submit():
+        type = form.type.data
+        description = form.description.data
+        price = form.price.data
+        quantity = form.quantity.data
+        vendor = form.vendor.data
+        cursor.execute("UPDATE MERCH SET (Merch_Type, Merch_Description, Merch_Price, QuantityAvailable) VALUES (%s, %s, %s, %s) WHERE Merch_ID = %s;", 
+                        (type, description, price, quantity, id))
+
+        cursor.execute("UPDATE MERCHVENDOR SET (Vendor_ID) VALUES (%s, %s) WHERE Equipment_ID = %s;", 
+                        (vendor, id))
+        # Save Changes
+        mydb.commit()
+        cursor.close()
+        return redirect(url_for('merch'))
+    return render_template('edit-merch.html', form=form, record=record)
+
+@app.route("/edit-vendor/<int:id>", methods=['GET', 'POST'])
+def editvendor(id):
+    # Get record
+    cursor = mydb.cursor(dictionary=True)
+    cursor.execute('SELECT * FROM VENDOR WHERE Vendor_ID = %s', (id,))
+    record = cursor.fetchone()
+    form = forms.CreateVendorForm()
+
+    if form.validate_on_submit():
+        name = form.name.data
+        street = form.street.data
+        city = form.city.data
+        state = form.state.data
+        zip = form.zip.data
+        phone = form.phone.data
+        email = form.email.data
+        cursor.execute("UPDATE VENDOR (Vendor_Name, Vendor_Street, Vendor_City, Vendor_State, Vendor_Zip, Vendor_Phone, Vendor_Email) VALUES (%s, %s, %s, %s, %s, %s, %s) WHERE Vendor_ID = %s;", 
+                        (name, street, city, state, zip, phone, email, id))
+        # Save Changes
+        mydb.commit()
+        cursor.close()
+        return redirect(url_for('vendor'))
+    return render_template('edit-vendor.html', form=form, record=record)
+
+@app.route("/edit-volunteer/<int:id>", methods=['GET', 'POST'])
+def editvolunteer(id):
+    # Get record
+    cursor = mydb.cursor(dictionary=True)
+    cursor.execute('SELECT * FROM VOLUNTEER WHERE Volunteer_ID = %s', (id,))
+    record = cursor.fetchone()
+    form = forms.CreateVolunteerForm()
+
+    if form.validate_on_submit():
+        fname = form.fname.data
+        lname = form.lname.data
+        phone = form.phone.data
+        email = form.email.data
+        avail1 = form.avail1.data
+        avail2 = form.avail2.data
+        avail3 = form.avail3.data
+        avail4 = form.avail4.data
+        availlist = [avail1, avail2, avail3, avail4]
+        for i in availlist:
+            if i == True:
+                i = 1
+            else: i = 0
+        cursor.execute("INSERT INTO VOLUNTEER (Volunteer_FName, Volunteer_LName, Volunteer_Email, Volunteer_Avail_1, Volunteer_Avail_2, Volunteer_Avail_3, Volunteer_Avail_4) WHERE Volunteer_ID = %s;", 
+                        (fname, lname, phone, email, avail1, avail2, avail3, avail4, id))
+        # Save Changes
+        mydb.commit()
+        cursor.close()
+        return redirect(url_for('vendor'))
+    return render_template('edit-vendor.html', form=form, record=record)
 
 ###########################################################################################################################################################################
     
