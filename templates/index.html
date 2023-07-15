@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>Indieheads Management System</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style-index.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style-index.css') }}">        
         <script>
             // Retrieve the checkbox values from localStorage on page load
             document.addEventListener('DOMContentLoaded', function() {
@@ -188,6 +188,7 @@
         <a href="{{ url_for('venues') }}">venues</a>
         <a href="{{ url_for('equipment') }}">equipment</a>
         <a href="{{ url_for('merch') }}">merch</a>
+        <a href="{{ url_for('vendor') }}">vendor</a>
     </div>
 
     <!-- Page Content -->
