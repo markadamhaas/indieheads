@@ -33,6 +33,9 @@ def bands():
 @app.route('/shows')
 def shows():
     cursor = mydb.cursor(dictionary=True)
+
+    cursor.execute()
+
     sort_option = request.args.get('sort', 'Event_Date')  # Default sorting is by name
     cursor.execute(f"SELECT * FROM EVENT ORDER BY {sort_option};")
     shows = cursor.fetchall()
