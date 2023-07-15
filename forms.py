@@ -1,21 +1,31 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, DateField, IntegerField, SubmitField, SelectField, DecimalField, TextAreaField, BooleanField
+from wtforms import StringField, DateField, IntegerField, SubmitField, SelectField, DecimalField, TextAreaField, BooleanField, SelectMultipleField
 from wtforms.validators import DataRequired
 
 class CreateShowForm(FlaskForm):
     # Event Record
     venue = SelectField('Venue', validators=[DataRequired()])
-    date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired()])
-    time = StringField('Time', validators=[DataRequired()])
+    date = DateField('Date', format='%Y-%m-%d')
+    time = StringField('Time')
     ticketprice = IntegerField('Ticket Price', validators=[DataRequired()])
 
     # Equipment Select
+    equipment = SelectMultipleField('Equipment', validators=[DataRequired()])
 
     # Merch Select
+    merch = SelectMultipleField('Merch', validators=[DataRequired()])
 
     # Set List
+    band1 = SelectField("Band 1", validators=[DataRequired()])
+    band2 = SelectField("Band 2", validators=[DataRequired()])
+    band3 = SelectField("Band 3", validators=[DataRequired()])
+    band4 = SelectField("Band 4", validators=[DataRequired()])
 
     # Volunteer Schedule
+    volunteer1 = SelectField("Volunteer 1", validators=[DataRequired()])
+    volunteer2 = SelectField("Volunteer 2", validators=[DataRequired()])
+    volunteer3 = SelectField("Volunteer 3", validators=[DataRequired()])
+    volunteer4 = SelectField("Volunteer 4", validators=[DataRequired()])
 
     # Submit
     submit = SubmitField('Create')
@@ -52,6 +62,9 @@ class CreateEquipmentForm(FlaskForm):
     type = StringField('Type', validators=[DataRequired()])
     cost = DecimalField('Cost')
     volunteer = SelectField('Pickup Volunteer')
+
+    # Vendor Select
+    vendor = SelectField('Vendor', validators=[DataRequired()])
     
     # Submit
     submit = SubmitField('Create')
@@ -62,6 +75,9 @@ class CreateMerchForm(FlaskForm):
     description = TextAreaField('Description')
     price = DecimalField('Price')
     quantity = IntegerField('Quantity')
+
+    # Vendor Select
+    vendor = SelectField('Vendor', validators=[DataRequired()])
 
     # Submit
     submit = SubmitField('Create')
