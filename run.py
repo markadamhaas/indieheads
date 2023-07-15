@@ -54,36 +54,49 @@ def venues():
 @app.route('/equipment')
 def equipment():
     cursor = mydb.cursor(dictionary=True)
-    sort_option = request.args.get('sort', 'Equipment_Type')  # Default sorting is by name
-    cursor.execute(f"SELECT E.*, V.Volunteer_FName, V.Volunteer_LName "
-                    f"FROM EQUIPMENT E "
-                    f"LEFT JOIN VOLUNTEER V ON E.Volunteer_ID = V.Volunteer_ID   "
-                    f"ORDER BY {sort_option};")
+    sort_option = request.args.get('sort', 'Equipment_Type')  # Default sorting is by type
+    cursor.execute(f"""SELECT E.Equipment_ID, E.Equipment_Type, E.Equipment_Cost, V.Volunteer_FName, V.Volunteer_LName, VE.Vendor_Name 
+                        FROM EQUIPMENT E 
+                        LEFT JOIN VOLUNTEER V ON E.Volunteer_ID = V.Volunteer_ID
+                        INNER JOIN EQUIPMENTVENDOR EV ON E.Equipment_ID = EV.Equipment_ID
+                        INNER JOIN VENDOR VE ON EV.Vendor_ID = VE.Vendor_ID
+                        ORDER BY {sort_option};""")
     equipments = cursor.fetchall()
     cursor.close()
     return render_template('equipment.html', equipments=equipments, sort=sort_option)
 
+
 @app.route('/merch')
 def merch():
     cursor = mydb.cursor(dictionary=True)
-    sort_option = request.args.get('sort', 'Merch_Type')  # Default sorting is by name
-    cursor.execute(f"SELECT MV.*, M.Merch_Type, V.Vendor_Name "
-                    f"FROM MERCHVENDOR MV "
-                    f"INNER JOIN MERCH M ON MV.Merch_ID = M.Merch_ID "
-                    f"INNER JOIN VENDOR V ON MV.Vendor_ID = V.Vendor_ID "
-                    f"ORDER BY {sort_option};")
+    sort_option = request.args.get('sort', 'Merch_Type')  # Default sorting is by type
+    cursor.execute(f"""SELECT M.Merch_ID, M.Merch_Type, M.Merch_Description, M.Merch_Price, MV.QuantitySupplied, V.Vendor_Name 
+                    FROM MERCHVENDOR MV 
+                    INNER JOIN MERCH M ON MV.Merch_ID = M.Merch_ID 
+                    INNER JOIN VENDOR V ON MV.Vendor_ID = V.Vendor_ID 
+                    ORDER BY {sort_option};""")
     merchs = cursor.fetchall()
     cursor.close()
     return render_template('merch.html', merchs=merchs, sort=sort_option)
+
 
 @app.route('/vendor')
 def vendor():
     cursor = mydb.cursor(dictionary=True)
     sort_option = request.args.get('sort', 'Vendor_Name')  # Default sorting is by name
-    cursor.execute(f"SELECT * FROM VENDORS ORDER BY {sort_option};")
+    cursor.execute(f"SELECT * FROM VENDOR ORDER BY {sort_option};")
     vendors = cursor.fetchall()
     cursor.close()
     return render_template('vendor.html', vendors=vendors, sort=sort_option)
+
+@app.route('/volunteers')
+def volunteers():
+    cursor = mydb.cursor(dictionary=True)
+    sort_option = request.args.get('sort', 'Volunteer_FName')  # Default sorting is first name
+    cursor.execute(f"SELECT * FROM VOLUNTEER ORDER BY {sort_option};")
+    volunteers = cursor.fetchall()
+    cursor.close()
+    return render_template('volunteers.html', volunteers=volunteers, sort=sort_option)
 
 ###########################################################################################################################################################################
 
@@ -306,7 +319,6 @@ def createmerch():
         price = form.price.data
         quantity = form.quantity.data
         vendor = form.vendor.data
-        cost = form.cost.data
         cursor.execute("INSERT INTO MERCH (Merch_Type, Merch_Description, Merch_Price, QuantityAvailable) VALUES (%s, %s, %s, %s);", 
                         (type, description, price, quantity))
         

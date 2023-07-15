@@ -55,20 +55,22 @@
 <table>
     <thead>
         <tr>
-            <th><a href="{{ url_for('equipment', sort='Equipment_ID') }}">ID</a></th>
             <th><a href="{{ url_for('equipment', sort='Equipment_Type') }}">Type</a></th>
             <th><a href="{{ url_for('equipment', sort='Equipment_Cost') }}">Cost</a></th>
-            <th><a href="{{ url_for('equipment', sort='Volunteer_ID') }}">Volunteer ID</a></th>
+            <th><a href="{{ url_for('equipment', sort='Volunteer_FName') }}">Volunteer First Name</a></th>
+            <th><a href="{{ url_for('equipment', sort='Volunteer_LName') }}">Volunteer Last Name</a></th>
+            <th><a href="{{ url_for('equipment', sort='Vendor_Name') }}">Vendor Name</a></th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         {% for equipment in equipments %}
             <tr>
-                <td>{{ equipment.Equipment_ID }}</td>
                 <td>{{ equipment.Equipment_Type }}</td>
                 <td>{{ equipment.Equipment_Cost }}</td>
-                <td>{{ equipment.Volunteer_ID }}</td>
+                <td>{{ equipment.Volunteer_FName }}</td>
+                <td>{{ equipment.Volunteer_LName }}</td>
+                <td>{{ equipment.Vendor_Name }}</td>
                 <td>
                     <a href="{{ url_for('editequipment', id=equipment.Equipment_ID) }}">Edit</a>
                     <form method="post" action="{{ url_for('delete_equipment', id=equipment.Equipment_ID) }}">
