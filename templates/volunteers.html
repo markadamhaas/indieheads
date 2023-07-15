@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Add Volunteer
+{% endblock %}
+
+{% block content %}
+<style>
+    table {
+        margin: auto;
+    }
+
+    form {
+        display: grid;
+        width: 10%; 
+        margin: 0 auto; /* centers the form horizontally */
+    }
+
+    .form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50vh; /* adjust as needed */
+    }
+
+    a {
+        color: #dddd; 
+    }
+
+    /* New styles added */
+    .add-volunteer-container {
+        display: flex;
+        justify-content: center;
+        padding: 20px 0;
+    }
+
+    .add-volunteer-button {
+        background-color: #555;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+</style>
+
+<!-- New button added -->
+<div class="add-volunteer-container">
+    <a href="{{ url_for('createvolunteer') }}" class="add-volunteer-button">Add Volunteer</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th><a href="{{ url_for('volunteers', sort='Volunteer_FName') }}">First Name</a></th>
+            <th><a href="{{ url_for('volunteers', sort='Volunteer_LName') }}">Last Name</a></th>
+            <th><a href="{{ url_for('volunteers', sort='Volunteer_Phone') }}">Phone</a></th>
+            <th><a href="{{ url_for('volunteers', sort='Volunteer_Email') }}">Email</a></th>
+            <th>Available Hour 1?</th>
+            <th>Available Hour 2?</th>
+            <th>Available Hour 3?</th>
+            <th>Available Hour 4?</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for volunteer in volunteers %}
+            <tr>
+                <td>{{ volunteer.Volunteer_FName }}</td>
+                <td>{{ volunteer.Volunteer_LName }}</td>
+                <td>{{ volunteer.Volunteer_Phone }}</td>
+                <td>{{ volunteer.Volunteer_Email }}</td>
+                <td>{% if volunteer.Volunteer_Avail_1 %}Yes{% else %}No{% endif %}</td>
+                <td>{% if volunteer.Volunteer_Avail_2 %}Yes{% else %}No{% endif %}</td>
+                <td>{% if volunteer.Volunteer_Avail_3 %}Yes{% else %}No{% endif %}</td>
+                <td>{% if volunteer.Volunteer_Avail_4 %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <a href="{{ url_for('editvolunteer', id=volunteer.Volunteer_ID) }}">Edit</a>
+                    <form method="post" action="{{ url_for('delete_volunteer', id=volunteer.Volunteer_ID) }}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
