@@ -379,17 +379,13 @@ def editshow(id):
     cursor = mydb.cursor(dictionary=True)
     cursor.execute('SELECT * FROM EVENT WHERE EVENT_ID = %s', (id,))
     record = cursor.fetchone()
-    # cursor.execute('SELECT * FROM your_table WHERE id = %s', (id))
-    # record = cursor.fetchone()
 
-    form = forms.CreateShowForm()
+    form = forms.UpdateShowForm()
     # form.name.data
     # form.genre.data
     # form.instagram.data
     # form.contact.data
     # form.contactphone.data
-
-    form = forms.CreateShowForm()
 
     # Retrieve data from the MySQL table For Venue
     cursor = mydb.cursor()
@@ -442,6 +438,8 @@ def editshow(id):
         date = form.date.data
         time = form.time.data
         ticketprice = form.ticketprice.data
+        ticketssold = form.ticketssold.data
+        miscexpenses = form.miscexpenses.data
 
         equipment = form.equipment.data
         
@@ -457,8 +455,8 @@ def editshow(id):
         volunteer3 = form.volunteer3.data
         volunteer4 = form.volunteer4.data
 
-        cursor.execute("UPDATE EVENT SET Venue_ID = %s, Event_Date = %s, Event_Time = %s, Tickets_Sold = %s, Ticket_Price = %s, Total_Expenses = %s, Revenue = %s WHERE Event_ID = %s;", 
-                    (venue, date, time, 0, ticketprice, 0, 0, id))
+        cursor.execute("UPDATE EVENT SET Venue_ID = %s, Event_Date = %s, Event_Time = %s, Tickets_Sold = %s, Ticket_Price = %s, Misc_Expenses, Total_Expenses = %s, Revenue = %s WHERE Event_ID = %s;", 
+                    (venue, date, time, ticketssold, ticketprice, miscexpenses, 0, 0, id))
         
         mydb.commit()
 

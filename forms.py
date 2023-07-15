@@ -7,7 +7,7 @@ class CreateShowForm(FlaskForm):
     venue = SelectField('Venue', validators=[DataRequired()])
     date = DateField('Date', format='%Y-%m-%d')
     time = StringField('Time')
-    ticketprice = IntegerField('Ticket Price', validators=[DataRequired()])
+    ticketprice = DecimalField('Ticket Price', validators=[DataRequired()])
 
     # Equipment Select
     equipment = SelectMultipleField('Equipment', validators=[DataRequired()])
@@ -35,7 +35,7 @@ class UpdateShowForm(FlaskForm):
     venue = SelectField('Venue', validators=[DataRequired()])
     date = DateField('Date', format='%Y-%m-%d')
     time = StringField('Time')
-    ticketprice = IntegerField('Ticket Price', validators=[DataRequired()])
+    ticketprice = DecimalField('Ticket Price', validators=[DataRequired()])
     ticketssold = IntegerField('Tickets Sold')
     miscexpenses = DecimalField('Miscellaneous Expenses')
 
@@ -108,7 +108,7 @@ class CreateMerchForm(FlaskForm):
 
     # Vendor Select
     vendor = SelectField('Vendor', validators=[DataRequired()])
-    cost = DecimalField('Cost')
+    cost = DecimalField('Cost', validators=[DataRequired()])
 
     # Submit
     submit = SubmitField('Create')

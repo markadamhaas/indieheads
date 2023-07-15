@@ -76,7 +76,7 @@ VALUES ('Jake', 'Doe', 'jakedoe@virginia.edu', 0, 1, 1, 1);
 CREATE TABLE EQUIPMENT (
    Equipment_ID INT AUTO_INCREMENT PRIMARY KEY,
    Equipment_Type VARCHAR(30),
-   Equipment_Cost INT,
+   Equipment_Cost DECIMAL,
    Volunteer_ID INT,
    FOREIGN KEY (Volunteer_ID) REFERENCES VOLUNTEER(Volunteer_ID)
     ON DELETE SET NULL
@@ -107,7 +107,7 @@ CREATE TABLE MERCH (
    Merch_ID INT AUTO_INCREMENT PRIMARY KEY,
    Merch_Type VARCHAR(30),
    Merch_Description VARCHAR (200),
-   Merch_Price INT,
+   Merch_Price DECIMAL,
    QuantityAvailable INT
 );
 
@@ -200,14 +200,13 @@ CREATE TABLE EVENT (
     Event_Date DATE,
     Event_Time VARCHAR(5),
     Tickets_Sold INT,
-    Ticket_Price INT,
+    Ticket_Price DECIMAL,
     Misc_Expenses DECIMAL,
-    Total_Expenses INT,
-    Revenue INT,
+    Total_Expenses DECIMAL,
+    Revenue DECIMAL,
     FOREIGN KEY (Venue_ID) REFERENCES VENUE(Venue_ID)
         ON DELETE SET NULL
 );
-
 
 INSERT INTO EVENT (Venue_ID, Event_Date, Event_Time, Tickets_Sold, Ticket_Price, Misc_Expenses)
 VALUES 
@@ -274,11 +273,11 @@ CREATE TABLE MERCHVENDOR (
 
 INSERT INTO MERCHVENDOR (Merch_ID, Vendor_ID, QuantitySupplied)
 VALUES
-(1, 4, 500),
-(2, 4, 600),
-(5, 4, 550),
-(3, 5, 400),
-(4, 5, 700);
+(1, 4, 500, 50),
+(2, 4, 600, 75),
+(5, 4, 550, 60),
+(3, 5, 400, 40),
+(4, 5, 700, 80);
 
 CREATE TABLE SETLIST (
     Set_ID INT AUTO_INCREMENT PRIMARY KEY,
