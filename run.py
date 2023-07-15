@@ -274,6 +274,7 @@ def createmerch():
         price = form.price.data
         quantity = form.quantity.data
         vendor = form.vendor.data
+        cost = form.cost.data
         cursor.execute("INSERT INTO MERCH (Merch_Type, Merch_Description, Merch_Price, QuantityAvailable) VALUES (%s, %s, %s, %s);", 
                         (type, description, price, quantity))
         
@@ -281,8 +282,8 @@ def createmerch():
         
         merch_ID = ("SELECT last_insert_id();")
 
-        cursor.execute("INSERT INTO EQUIPMENTVENDOR (Merch_ID, Vendor_ID, QuantitySupplied) VALUES (%s, %s, %s);", 
-                        (merch_ID, vendor, quantity))
+        cursor.execute("INSERT INTO MERCHVENDOR (Merch_ID, Vendor_ID, QuantitySupplied, Cost) VALUES (%s, %s, %s, %s);", 
+                        (merch_ID, vendor, quantity, cost))
         # Save Changes
         mydb.commit()
         cursor.close()
