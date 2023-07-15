@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Edit Volunteer {{record.Volunteer_ID}}
+{% endblock %}
+
+{% block content %}
+<h2>Edit Volunteer {{record.Volunteer_ID}} </h2>
+    <form action="" method="post">
+        <p>
+            {{form.fname.label}}
+            {{form.fname()}}
+        </p>
+        <p>
+            {{form.lname.label}}
+            {{form.lname()}}
+        </p>
+        <p>
+            {{form.phone.label}}
+            {{form.phone()}}
+        </p>
+        <p>
+            {{form.email.label}}
+            {{form.email()}}
+        </p>
+        <p>
+            {{form.avail1.label}}
+            {{form.avail1()}}
+        </p>
+        <p>
+            {{form.avail2.label}}
+            {{form.avail2()}}
+        </p>
+        <p>
+            {{form.avail3.label}}
+            {{form.avail3()}}
+        </p>
+        <p>
+            {{form.avail4.label}}
+            {{form.avail4()}}
+        </p>
+        <p>{{form.submit()}}</p>
+    </form>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Edit Merch {{record.Merch_ID}}
+{% endblock %}
+
+{% block content %}
+<h2>Edit Merch {{record.Merch_ID}} </h2>
+    <form action="" method="post">
+        <p>
+            {{form.type.label}}
+            {{form.type()}}
+        </p>
+        <p>
+            {{form.description.label}}
+            {{form.description()}}
+        </p>
+        <p>
+            {{form.price.label}}
+            {{form.price()}}
+        </p>
+        <p>
+            {{form.quantity.label}}
+            {{form.quantity()}}
+        </p>
+        <p>
+            {{form.vendor.label}}
+            {{form.vendor()}}
+        </p>
+        <p>{{form.submit()}}</p>
+    </form>
+    {% endblock %}

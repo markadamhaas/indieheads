@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Edit Venue {{record.Venue_ID}}
+{% endblock %}
+
+{% block content %}
+<h2>Edit Venue {{record.Venue_ID}} </h2>
+    <form action="" method="post">
+        <p>
+            {{form.name.label}}
+            {{form.name()}}
+        </p>
+        <p>
+            {{form.street.label}}
+            {{form.street()}}
+        </p>
+        <p>
+            {{form.city.label}}
+            {{form.city()}}
+        </p>
+        <p>
+            {{form.state.label}}
+            {{form.state()}}
+        </p>
+        <p>
+            {{form.zip.label}}
+            {{form.zip()}}
+        </p>
+        <p>
+            {{form.price.label}}
+            {{form.price()}}
+        </p>
+        <p>
+            {{form.type.label}}
+            {{form.type()}}
+        </p>
+        <p>
+            {{form.contact.label}}
+            {{form.contact()}}
+        </p>
+        <p>
+            {{form.contactemail.label}}
+            {{form.contactemail()}}
+        </p>
+        <p>
+            {{form.contactphone.label}}
+            {{form.contactphone()}}
+        </p>
+        <p>{{form.submit()}}</p>
+    </form>
+{% endblock %}

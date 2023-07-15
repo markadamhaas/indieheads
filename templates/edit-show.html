@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Edit Show {{record.Show_ID}}
+{% endblock %}
+
+{% block content %}
+<h2>Edit Show {{record.Show_ID}} </h2>
+    <form action="" method="post">
+        <p>
+            {{form.venue.label}}
+            {{form.venue()}}
+        </p>
+        <p>
+            {{form.date.label}}
+            {{form.date(size=30)}}
+        </p>
+        <p>
+            {{form.time.label}}
+            {{form.time(size=10)}}
+        </p>
+        <p>
+            {{form.ticketprice.label}}
+            {{form.ticketprice()}}
+        </p>
+        <p>
+            {{form.equipment.label}}
+            {{form.equipment()}}
+        </p>
+        <p>
+            {{form.merch.label}}
+            {{form.merch()}}
+        </p>
+        <p>
+            {{form.band1.label}}
+            {{form.band1()}}
+        </p>
+        <p>
+            {{form.band2.label}}
+            {{form.band2()}}
+        </p>
+        <p>
+            {{form.band3.label}}
+            {{form.band3()}}
+        </p>
+        <p>
+            {{form.band4.label}}
+            {{form.band4()}}
+        </p>
+        <p>
+            {{form.volunteer1.label}}
+            {{form.volunteer1()}}
+        </p>
+        <p>
+            {{form.volunteer2.label}}
+            {{form.volunteer2()}}
+        </p>
+        <p>
+            {{form.volunteer3.label}}
+            {{form.volunteer3()}}
+        </p>
+        <p>
+            {{form.volunteer4.label}}
+            {{form.volunteer4()}}
+        </p>
+        <p>{{form.submit()}}</p>
+    </form>
+{% endblock %}
