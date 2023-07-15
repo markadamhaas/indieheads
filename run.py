@@ -106,7 +106,7 @@ def createshow():
 
     # Get data and create Event
     cursor = mydb.cursor()
-    if form.validate_on_submit():
+    if request.method == 'POST':  # Check if it's a POST request
         venue = form.venue.data
         date = form.date.data
         time = form.time.data
@@ -200,7 +200,7 @@ def createvenue():
 
     # Get data and create Venue
     cursor = mydb.cursor()
-    if form.validate_on_submit():
+    if request.method == 'POST':  # Check if it's a POST request
         name = form.name.data
         street = form.street.data
         city = form.city.data
@@ -237,7 +237,7 @@ def createequipment():
 
     # Get data and create Equipment
     cursor = mydb.cursor()
-    if form.validate_on_submit():
+    if request.method == 'POST':  # Check if it's a POST request
         type = form.type.data
         cost = form.cost.data
         volunteer = form.volunteer.data
@@ -268,7 +268,7 @@ def createmerch():
     vendoroptions = cursor.fetchall()
     form.vendor.choices = [(row[0], row[1]) for row in vendoroptions]
 
-    if form.validate_on_submit():
+    if request.method == 'POST':  # Check if it's a POST request
         type = form.type.data
         description = form.description.data
         price = form.price.data
@@ -295,7 +295,7 @@ def createvendor():
 
     # Get data and create Vendor
     cursor = mydb.cursor()
-    if form.validate_on_submit():
+    if request.method == 'POST':  # Check if it's a POST request
         name = form.name.data
         street = form.street.data
         city = form.city.data
@@ -317,7 +317,7 @@ def createvolunteer():
 
     # Get data and create Volunteer
     cursor = mydb.cursor()
-    if form.validate_on_submit():
+    if request.method == 'POST':  # Check if it's a POST request
         fname = form.fname.data
         lname = form.lname.data
         phone = form.phone.data
@@ -406,7 +406,7 @@ def editshow(id):
     # Get data and create Event
     cursor = mydb.cursor()
     record = cursor.fetchone()
-    if form.validate_on_submit():
+    if request.method == 'POST':  # Check if it's a POST request
         venue = form.venue.data
         date = form.date.data
         time = form.time.data
@@ -485,7 +485,7 @@ def editband(id):
     # form.contact.data
     # form.contactphone.data
 
-    if form.validate_on_submit():
+    if request.method == 'POST':  # Check if it's a POST request
         name = form.name.data
         genre = form.genre.data
         instagram = form.instagram.data
@@ -507,7 +507,7 @@ def editvenue(id):
     record = cursor.fetchone()
     form = forms.CreateVenueForm()
 
-    if form.validate_on_submit():
+    if request.method == 'POST':  # Check if it's a POST request
         name = form.name.data
         street = form.street.data
         city = form.city.data
@@ -546,7 +546,7 @@ def editequipment(id):
 
     # Get data and create Equipment
     cursor = mydb.cursor()
-    if form.validate_on_submit():
+    if request.method == 'POST':  # Check if it's a POST request
         type = form.type.data
         cost = form.cost.data
         volunteer = form.volunteer.data
@@ -578,7 +578,7 @@ def editmerch(id):
     form.vendor.choices = [(row[0], row[1]) for row in vendoroptions]
 
     # Get data and create Equipment
-    if form.validate_on_submit():
+    if request.method == 'POST':  # Check if it's a POST request
         type = form.type.data
         description = form.description.data
         price = form.price.data
@@ -603,7 +603,7 @@ def editvendor(id):
     record = cursor.fetchone()
     form = forms.CreateVendorForm()
 
-    if form.validate_on_submit():
+    if request.method == 'POST':  # Check if it's a POST request
         name = form.name.data
         street = form.street.data
         city = form.city.data
@@ -627,7 +627,7 @@ def editvolunteer(id):
     record = cursor.fetchone()
     form = forms.CreateVolunteerForm()
 
-    if form.validate_on_submit():
+    if request.method == 'POST':  # Check if it's a POST request
         fname = form.fname.data
         lname = form.lname.data
         phone = form.phone.data
@@ -651,6 +651,14 @@ def editvolunteer(id):
 
 ###########################################################################################################################################################################
     
+@app.route("/delete_show/<int:id>", methods=['POST'])
+def delete_show(id):
+    cursor = mydb.cursor()
+    cursor.execute("DELETE FROM EVENT WHERE Event_ID = %s;", (id,))
+    mydb.commit()
+    cursor.close()
+    return redirect(url_for('shows'))
+
 @app.route("/delete_band/<int:id>", methods=['POST'])
 def delete_band(id):
     cursor = mydb.cursor()
@@ -666,6 +674,38 @@ def delete_venue(id):
     mydb.commit()
     cursor.close()
     return redirect(url_for('venues'))
+
+@app.route("/delete_equipment/<int:id>", methods=['POST'])
+def delete_equipment(id):
+    cursor = mydb.cursor()
+    cursor.execute("DELETE FROM EQUIPMENT WHERE Equipment_ID = %s;", (id,))
+    mydb.commit()
+    cursor.close()
+    return redirect(url_for('equipment'))
+
+@app.route("/delete_merch/<int:id>", methods=['POST'])
+def delete_merch(id):
+    cursor = mydb.cursor()
+    cursor.execute("DELETE FROM MERCH WHERE Merch_ID = %s;", (id,))
+    mydb.commit()
+    cursor.close()
+    return redirect(url_for('merch'))
+
+@app.route("/delete_vendor/<int:id>", methods=['POST'])
+def delete_vendor(id):
+    cursor = mydb.cursor()
+    cursor.execute("DELETE FROM VENDOR WHERE Vendor_ID = %s;", (id,))
+    mydb.commit()
+    cursor.close()
+    return redirect(url_for('vendors'))
+
+@app.route("/delete_volunteer/<int:id>", methods=['POST'])
+def delete_volunteer(id):
+    cursor = mydb.cursor()
+    cursor.execute("DELETE FROM VOLUNTEERS WHERE Volunteer_ID = %s;", (id,))
+    mydb.commit()
+    cursor.close()
+    return redirect(url_for('volunteers'))
 
 if __name__ == '__main__':
     app.run(debug=True)
