@@ -30,6 +30,36 @@ class CreateShowForm(FlaskForm):
     # Submit
     submit = SubmitField('Create')
 
+class UpdateShowForm(FlaskForm):
+    # Event Record
+    venue = SelectField('Venue', validators=[DataRequired()])
+    date = DateField('Date', format='%Y-%m-%d')
+    time = StringField('Time')
+    ticketprice = IntegerField('Ticket Price', validators=[DataRequired()])
+    ticketssold = IntegerField('Tickets Sold')
+    miscexpenses = DecimalField('Miscellaneous Expenses')
+
+    # Equipment Select
+    equipment = SelectMultipleField('Equipment', validators=[DataRequired()])
+
+    # Merch Select
+    merch = SelectMultipleField('Merch', validators=[DataRequired()])
+
+    # Set List
+    band1 = SelectField("Band 1", validators=[DataRequired()])
+    band2 = SelectField("Band 2", validators=[DataRequired()])
+    band3 = SelectField("Band 3", validators=[DataRequired()])
+    band4 = SelectField("Band 4", validators=[DataRequired()])
+
+    # Volunteer Schedule
+    volunteer1 = SelectField("Volunteer 1", validators=[DataRequired()])
+    volunteer2 = SelectField("Volunteer 2", validators=[DataRequired()])
+    volunteer3 = SelectField("Volunteer 3", validators=[DataRequired()])
+    volunteer4 = SelectField("Volunteer 4", validators=[DataRequired()])
+
+    # Submit
+    submit = SubmitField('Create')
+
 class CreateBandForm(FlaskForm):
     # Band Record
     name = StringField('Band', validators=[DataRequired()])
@@ -78,6 +108,7 @@ class CreateMerchForm(FlaskForm):
 
     # Vendor Select
     vendor = SelectField('Vendor', validators=[DataRequired()])
+    cost = DecimalField('Cost')
 
     # Submit
     submit = SubmitField('Create')
