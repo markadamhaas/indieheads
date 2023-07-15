@@ -1,6 +1,83 @@
-<!DOCTYPE html>
-<html>
-<body>
-<h1>This is a test</h1>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}
+    Equipment
+{% endblock %}
+
+{% block content %}
+<style>
+    table {
+        margin: auto;
+    }
+
+    form {
+        display: grid;
+        width: 10%; 
+        margin: 0 auto; /* centers the form horizontally */
+    }
+
+    .form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50vh; /* adjust as needed */
+    }
+
+    a {
+        color: #dddd; 
+    }
+
+    /* New styles added */
+    .add-equipment-container {
+        display: flex;
+        justify-content: center;
+        padding: 20px 0;
+    }
+
+    .add-equipment-button {
+        background-color: #555;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+</style>
+
+<!-- New button added -->
+<div class="add-equipment-container">
+    <a href="{{ url_for('createequipment') }}" class="add-equipment-button">Add Equipment</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th><a href="{{ url_for('equipment', sort='Equipment_ID') }}">ID</a></th>
+            <th><a href="{{ url_for('equipment', sort='Equipment_Type') }}">Type</a></th>
+            <th><a href="{{ url_for('equipment', sort='Equipment_Cost') }}">Cost</a></th>
+            <th><a href="{{ url_for('equipment', sort='Volunteer_ID') }}">Volunteer ID</a></th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for equipment in equipments %}
+            <tr>
+                <td>{{ equipment.Equipment_ID }}</td>
+                <td>{{ equipment.Equipment_Type }}</td>
+                <td>{{ equipment.Equipment_Cost }}</td>
+                <td>{{ equipment.Volunteer_ID }}</td>
+                <td>
+                    <a href="{{ url_for('editequipment', id=equipment.Equipment_ID) }}">Edit</a>
+                    <form method="post" action="{{ url_for('delete_equipment', id=equipment.Equipment_ID) }}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

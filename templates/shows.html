@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Bands
+    Shows
 {% endblock %}
 
 {% block content %}
@@ -24,39 +24,62 @@
     }
 
     a {
-        color: #dddd; /* Or any color you prefer */
+        color: #dddd; 
+    }
+
+    /* New styles added */
+    .add-show-container {
+        display: flex;
+        justify-content: center;
+        padding: 20px 0;
+    }
+
+    .add-show-button {
+        background-color: #555;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
     }
 </style>
-<!-- <table>
+
+<!-- New button added -->
+<div class="add-show-container">
+    <a href="{{ url_for('createshow') }}" class="add-show-button">Add Show</a>
+</div>
+
+<table>
     <thead>
         <tr>
-            <th><a href="{{ url_for('bands', sort='Band_Name') }}">Name</a></th>
-            <th><a href="{{ url_for('bands', sort='Band_Genre') }}">Genre</a></th>
-            <th><a href="{{ url_for('bands', sort='Band_Location') }}">Location</a></th>
-            <th><a href="{{ url_for('bands', sort='Band_Instagram') }}">Instagram</a></th>
-            <th><a href="{{ url_for('bands', sort='B_Contact_Person') }}">Contact Person</a></th>
-            <th><a href="{{ url_for('bands', sort='B_Contact_Number') }}">Contact Number</a></th>
+            <th><a href="{{ url_for('shows', sort='Venue_ID') }}">Venue ID</a></th>
+            <th><a href="{{ url_for('shows', sort='Event_Date') }}">Event Date</a></th>
+            <th><a href="{{ url_for('shows', sort='Event_Time') }}">Event Time</a></th>
+            <th><a href="{{ url_for('shows', sort='Tickets_Sold') }}">Tickets Sold</a></th>
+            <th><a href="{{ url_for('shows', sort='Ticket_Price') }}">Ticket Price</a></th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        {% for band in bands %}
+        {% for show in shows %}
             <tr>
-                <td>{{ band.Band_Name }}</td>
-                <td>{{ band.Band_Genre }}</td>
-                <td>{{ band.Band_Location }}</td>
-                <td>{{ band.Band_Instagram }}</td>
-                <td>{{ band.B_Contact_Person }}</td>
-                <td>{{ band.B_Contact_Number }}</td>
+                <td>{{ show.Venue_ID }}</td>
+                <td>{{ show.Event_Date }}</td>
+                <td>{{ show.Event_Time }}</td>
+                <td>{{ show.Tickets_Sold }}</td>
+                <td>{{ show.Ticket_Price }}</td>
                 <td>
-                    <a href="{{ url_for('edit_band', id=band.Band_ID) }}">Edit</a>
-                    <form method="post" action="{{ url_for('delete_band', id=band.Band_ID) }}">
+                    <a href="{{ url_for('editshow', id=show.Event_ID) }}">Edit</a>
+                    <form method="post" action="{{ url_for('delete_show', id=show.Event_ID) }}">
                         <button type="submit">Delete</button>
                     </form>
                 </td>
             </tr>
         {% endfor %}
     </tbody>
-</table> -->
+</table>
 
 {% endblock %}

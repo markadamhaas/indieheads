@@ -32,8 +32,12 @@ def bands():
 
 @app.route('/shows')
 def shows():
-    # placeholder
-    return render_template('shows.html')
+    cursor = mydb.cursor(dictionary=True)
+    sort_option = request.args.get('sort', 'Event_Date')  # Default sorting is by name
+    cursor.execute(f"SELECT * FROM EVENT ORDER BY {sort_option};")
+    shows = cursor.fetchall()
+    cursor.close()
+    return render_template('shows.html', shows=shows, sort=sort_option)
 
 @app.route('/venues')
 def venues():
@@ -46,13 +50,37 @@ def venues():
 
 @app.route('/equipment')
 def equipment():
-    # placeholder
-    return render_template('equipment.html')
+    cursor = mydb.cursor(dictionary=True)
+    sort_option = request.args.get('sort', 'Equipment_Type')  # Default sorting is by name
+    cursor.execute(f"SELECT E.*, V.Volunteer_FName, V.Volunteer_LName "
+                    f"FROM EQUIPMENT E "
+                    f"LEFT JOIN VOLUNTEER V ON E.Volunteer_ID = V.Volunteer_ID   "
+                    f"ORDER BY {sort_option};")
+    equipments = cursor.fetchall()
+    cursor.close()
+    return render_template('equipment.html', equipments=equipments, sort=sort_option)
 
 @app.route('/merch')
 def merch():
-    # placeholder
-    return render_template('merch.html')
+    cursor = mydb.cursor(dictionary=True)
+    sort_option = request.args.get('sort', 'Merch_Type')  # Default sorting is by name
+    cursor.execute(f"SELECT MV.*, M.Merch_Type, V.Vendor_Name "
+                    f"FROM MERCHVENDOR MV "
+                    f"INNER JOIN MERCH M ON MV.Merch_ID = M.Merch_ID "
+                    f"INNER JOIN VENDOR V ON MV.Vendor_ID = V.Vendor_ID "
+                    f"ORDER BY {sort_option};")
+    merchs = cursor.fetchall()
+    cursor.close()
+    return render_template('merch.html', merchs=merchs, sort=sort_option)
+
+@app.route('/vendor')
+def vendor():
+    cursor = mydb.cursor(dictionary=True)
+    sort_option = request.args.get('sort', 'Vendor_Name')  # Default sorting is by name
+    cursor.execute(f"SELECT * FROM VENUE ORDER BY {sort_option};")
+    venues = cursor.fetchall()
+    cursor.close()
+    return render_template('vendor.html', vendors=vendors, sort=sort_option)
 
 ###########################################################################################################################################################################
 
@@ -386,7 +414,7 @@ def editshow(id):
 
     # Retrieve data from the MySQL table For Volunteer
     cursor = mydb.cursor()
-    cursor.execute('SELECT Volunteer_ID, Volunteer_Name FROM VOLUNTEER')
+    cursor.execute('SELECT Volunteer_ID, Volunteer_FName FROM VOLUNTEER')
     volunteeroptions = cursor.fetchall()
     cursor.close()
 
