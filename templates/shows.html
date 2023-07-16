@@ -58,8 +58,13 @@
             <th><a href="{{ url_for('shows', sort='Venue_ID') }}">Venue ID</a></th>
             <th><a href="{{ url_for('shows', sort='Event_Date') }}">Event Date</a></th>
             <th><a href="{{ url_for('shows', sort='Event_Time') }}">Event Time</a></th>
+            <th>Event Merch</th>
             <th><a href="{{ url_for('shows', sort='Tickets_Sold') }}">Tickets Sold</a></th>
             <th><a href="{{ url_for('shows', sort='Ticket_Price') }}">Ticket Price</a></th>
+            <th><a href="{{ url_for('shows', sort='Misc_Expenses') }}">Misc Expenses</a></th>
+            <th><a href="{{ url_for('shows', sort='Total_Expenses') }}">Total Expenses</a></th>
+            <th><a href="{{ url_for('shows', sort='Revenue') }}">Revenue</a></th>
+            <th><a href="{{ url_for('shows', sort='Net') }}">Net</a></th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -69,8 +74,15 @@
                 <td>{{ show.Venue_ID }}</td>
                 <td>{{ show.Event_Date }}</td>
                 <td>{{ show.Event_Time }}</td>
+                <td>
+                    <a href="{{ url_for('eventmerch', id=show.Event_ID) }}">Edit Sales</a>
+                </td>
                 <td>{{ show.Tickets_Sold }}</td>
                 <td>{{ show.Ticket_Price }}</td>
+                <td>{{ show.Misc_Expenses }}</td>
+                <td>{{ show.Total_Expenses }}</td>
+                <td>{{ show.Revenue }}</td>
+                <td>{{ show.Net }}</td>
                 <td>
                     <a href="{{ url_for('editshow', id=show.Event_ID) }}">Edit</a>
                     <form method="post" action="{{ url_for('delete_show', id=show.Event_ID) }}">

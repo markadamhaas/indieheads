@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, DateField, IntegerField, SubmitField, SelectField, DecimalField, TextAreaField, BooleanField, SelectMultipleField
-from wtforms.validators import DataRequired
+from wtforms import StringField, DateField, IntegerField, SubmitField, SelectField, DecimalField, TextAreaField, BooleanField, SelectMultipleField, HiddenField
+from wtforms.validators import DataRequired, Length
 
 class CreateShowForm(FlaskForm):
     # Event Record
@@ -36,9 +36,9 @@ class UpdateShowForm(FlaskForm):
     date = DateField('Date', format='%Y-%m-%d')
     time = StringField('Time')
     ticketprice = DecimalField('Ticket Price', validators=[DataRequired()])
-    ticketssold = IntegerField('Tickets Sold')
-    miscexpenses = DecimalField('Miscellaneous Expenses')
-
+    ticketssold = IntegerField('Tickets Sold', validators=[DataRequired()])
+    miscexpenses = DecimalField('Miscellaneous Expenses', validators=[DataRequired()])
+ 
     # Equipment Select
     equipment = SelectMultipleField('Equipment', validators=[DataRequired()])
 
@@ -60,13 +60,19 @@ class UpdateShowForm(FlaskForm):
     # Submit
     submit = SubmitField('Save')
 
+class EventMerchForm(FlaskForm):
+    merchid = HiddenField('Hidden Field')
+    quantity = IntegerField('')
+    submit = SubmitField('Save')
+
 class CreateBandForm(FlaskForm):
     # Band Record
     name = StringField('Band', validators=[DataRequired()])
-    genre = StringField('Genre')
+    location = StringField('Location', validators=[DataRequired()])
+    genre = StringField('Genre',validators=[DataRequired()])
     instagram = StringField('Instagram')
-    contact = StringField('Contact Name')
-    contactphone = StringField('Contact Phone Number')
+    contact = StringField('Contact Name',validators=[DataRequired()])
+    contactphone = StringField('Contact Phone Number',validators=[DataRequired()])
     
     # Submit
     submit = SubmitField('Save')
@@ -76,7 +82,7 @@ class CreateVenueForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     street = StringField('Street')
     city = StringField('City')
-    state = StringField('State')
+    state = StringField('State Code', validators=[Length(max=2)])
     zip = StringField('Zip')
     price = DecimalField('Price')
     type = StringField('Type')
@@ -103,8 +109,8 @@ class CreateMerchForm(FlaskForm):
     # Merch Record
     type = StringField('Type', validators=[DataRequired()])
     description = TextAreaField('Description')
-    price = DecimalField('Price')
-    quantity = IntegerField('Quantity')
+    price = DecimalField('Price', validators=[DataRequired()])
+    quantity = IntegerField('Quantity', validators=[DataRequired()])
 
     # Vendor Select
     vendor = SelectField('Vendor', validators=[DataRequired()])
@@ -118,7 +124,7 @@ class CreateVendorForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     street = StringField('Street')
     city = StringField('City')
-    state = StringField('State')
+    state = StringField('State Code',validators=[Length(max=2)])
     zip = StringField('Zip')
     phone = StringField('Phone Number')
     email = StringField('Email')

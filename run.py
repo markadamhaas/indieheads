@@ -66,10 +66,10 @@ def shows():
         cursor.execute("Select QuantitySold From EVENTMERCH WHERE Event_ID=%s;",
                        (event[0],))
         merchquantities = cursor.fetchall()
-        print(merchquantities)
         merchrevenue = sum(x[0] * y[0] for x, y in zip(merchprices,merchquantities))
 
         #ticket revenue
+
         ticketrevenue = event[4] * event[5]
 
         #total revenue
@@ -77,15 +77,48 @@ def shows():
 
         #net
         net = totalrevenue - totalcost
-        cursor.execute("UPDATE EVENT SET Total_Expenses = %s, Revenue = %s WHERE Event_ID = %s;", 
-                    (totalcost, totalrevenue, event[0]))
+        cursor.execute("UPDATE EVENT SET Total_Expenses = %s, Revenue = %s, Net = %s WHERE Event_ID = %s;", 
+                    (totalcost, totalrevenue, net, event[0]))
+        mydb.commit
         cursor.close
     cursor = mydb.cursor(dictionary=True)
     sort_option = request.args.get('sort', 'Event_Date')  # Default sorting is by name
     cursor.execute(f"SELECT * FROM EVENT ORDER BY {sort_option};")
     shows = cursor.fetchall()
     cursor.close()
-    return render_template('shows.html', shows=shows, sort=sort_option, net = net)
+    return render_template('shows.html', shows=shows, sort=sort_option)
+
+@app.route("/eventmerch/<int:id>", methods=['GET', 'POST'])
+def eventmerch(id):
+    cursor = mydb.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM EVENTMERCH JOIN MERCH ON EVENTMERCH.Merch_ID=MERCH.Merch_ID WHERE Event_ID=%s;",
+                   (id,))
+    eventmerch = cursor.fetchall()
+
+    merchforms = []
+    for merch in eventmerch:
+        print(merch)
+        form = forms.EventMerchForm()
+        form.merchid.data = merch['Merch_ID']
+        form.quantity.data = merch['QuantitySold']
+        merchforms.append(form)
+
+    if request.method == 'POST':  # Check if it's a POST request
+
+        merchid = form.merchid.data
+        quantity = form.quantity.data
+        cursor.execute("UPDATE EVENTMERCH SET QuantitySold = %s WHERE Event_ID = %s AND Merch_ID = %s;", 
+                    (quantity, id, merchid))
+        mydb.commit()
+        cursor.execute("SELECT QuantityAvailable FROM MERCH WHERE MERCH_ID = %s",
+                       (merchid,))
+        quantityavailable = cursor.fetchone()
+        cursor.execute("UPDATE MERCH SET QuantityAvailable = %s WHERE MERCH_ID = %s",
+                       (quantityavailable['QuantityAvailable']-quantity, merchid))
+        mydb.commit()
+        cursor.close()
+        return redirect(url_for('shows'))
+    return render_template('eventmerch.html', eventmerch=eventmerch, merchforms=merchforms)
 
 @app.route('/venues')
 def venues():
@@ -115,7 +148,7 @@ def equipment():
 def merch():
     cursor = mydb.cursor(dictionary=True)
     sort_option = request.args.get('sort', 'Merch_Type')  # Default sorting is by type
-    cursor.execute(f"""SELECT M.Merch_ID, M.Merch_Type, M.Merch_Description, M.Merch_Price, MV.QuantitySupplied, V.Vendor_Name 
+    cursor.execute(f"""SELECT M.Merch_ID, M.Merch_Type, M.Merch_Description, M.Merch_Price, M.QuantityAvailable, V.Vendor_Name, MV.Cost
                     FROM MERCHVENDOR MV 
                     INNER JOIN MERCH M ON MV.Merch_ID = M.Merch_ID 
                     INNER JOIN VENDOR V ON MV.Vendor_ID = V.Vendor_ID 
@@ -202,8 +235,10 @@ def createshow():
         ticketprice = form.ticketprice.data
 
         equipment = form.equipment.data
+        equipment = list(map(int, equipment))
         
         merch = form.merch.data
+        merch = list(map(int, merch))
 
         band1 = form.band1.data
         band2 = form.band2.data
@@ -215,8 +250,8 @@ def createshow():
         volunteer3 = form.volunteer3.data
         volunteer4 = form.volunteer4.data
 
-        cursor.execute("INSERT INTO EVENT (Venue_ID, Event_Date, Event_Time, Tickets_Sold, Ticket_Price, Total_Expenses, Revenue) VALUES (%s, %s, %s, %s, %s, %s, %s);", 
-                    (venue, date, time, 0, ticketprice, 0, 0))
+        cursor.execute("INSERT INTO EVENT (Venue_ID, Event_Date, Event_Time, Tickets_Sold, Ticket_Price, Misc_Expenses, Total_Expenses, Revenue) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);", 
+                    (venue, date, time, 0, ticketprice, 0, 0, 0))
         
         mydb.commit()
         
@@ -225,11 +260,11 @@ def createshow():
         
         for i in equipment:
             cursor.execute("INSERT INTO EVENTEQUIPMENT (Event_ID, Equipment_ID) VALUES (%s, %s);",
-                           (event_ID[0], equipment[i]))
+                           (event_ID[0], i))
         
         for i in merch:
             cursor.execute("INSERT INTO EVENTMERCH (Event_ID, Merch_ID, QuantitySold) VALUES (%s, %s, %s);",
-                           (event_ID[0], merch[i], 0))
+                           (event_ID[0], i, 0))
         
         cursor.execute("INSERT INTO SETLIST (Event_ID, Band_ID, Timeslot) VALUES (%s, %s, %s);",
                        (event_ID[0], band1, 1))
@@ -307,7 +342,7 @@ def createvenue():
         mydb.commit()
         cursor.close()
         return redirect(url_for('venues'))
-    return render_template('create-band.html', form=form)
+    return render_template('create-venue.html', form=form)
 
 @app.route("/create-equipment", methods=['GET', 'POST'])
 def createequipment():
@@ -337,10 +372,11 @@ def createequipment():
                         (type, cost, volunteer))
         mydb.commit()
 
-        equipment_ID = ("SELECT last_insert_id();")
+        cursor.execute("SELECT LAST_INSERT_ID();")
+        equipment_ID = cursor.fetchone()
 
         cursor.execute("INSERT INTO EQUIPMENTVENDOR (Equipment_ID, Vendor_ID) VALUES (%s, %s);", 
-                        (equipment_ID, vendor))
+                        (equipment_ID[0], vendor))
 
         # Save Changes
         mydb.commit()
@@ -364,6 +400,7 @@ def createmerch():
         price = form.price.data
         quantity = form.quantity.data
         vendor = form.vendor.data
+        cost = form.cost.data
         cursor.execute("INSERT INTO MERCH (Merch_Type, Merch_Description, Merch_Price, QuantityAvailable) VALUES (%s, %s, %s, %s);", 
                         (type, description, price, quantity))
         
@@ -399,7 +436,7 @@ def createvendor():
         # Save Changes
         mydb.commit()
         cursor.close()
-        return redirect(url_for('vendors'))
+        return redirect(url_for('vendor'))
     return render_template('create-vendor.html', form=form)
 
 @app.route("/create-volunteer", methods=['GET', 'POST'])
@@ -422,7 +459,7 @@ def createvolunteer():
             if i == True:
                 i = 1
             else: i = 0
-        cursor.execute("INSERT INTO VOLUNTEER (Volunteer_FName, Volunteer_LName, Volunteer_Email, Volunteer_Avail_1, Volunteer_Avail_2, Volunteer_Avail_3, Volunteer_Avail_4);", 
+        cursor.execute("INSERT INTO VOLUNTEER (Volunteer_FName, Volunteer_LName, Volunteer_Phone, Volunteer_Email, Volunteer_Avail_1, Volunteer_Avail_2, Volunteer_Avail_3, Volunteer_Avail_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);", 
                         (fname, lname, phone, email, avail1, avail2, avail3, avail4))
         
         # Save Changes
@@ -492,7 +529,6 @@ def editshow(id):
     
     # Get data and create Event
     cursor = mydb.cursor()
-    record = cursor.fetchone()
     if request.method == 'POST':  # Check if it's a POST request
         venue = form.venue.data
         date = form.date.data
@@ -502,8 +538,10 @@ def editshow(id):
         miscexpenses = form.miscexpenses.data
 
         equipment = form.equipment.data
+        equipment = list(map(int, equipment))
         
         merch = form.merch.data
+        merch = list(map(int, merch))
 
         band1 = form.band1.data
         band2 = form.band2.data
@@ -515,26 +553,26 @@ def editshow(id):
         volunteer3 = form.volunteer3.data
         volunteer4 = form.volunteer4.data
 
-        cursor.execute("UPDATE EVENT SET Venue_ID = %s, Event_Date = %s, Event_Time = %s, Tickets_Sold = %s, Ticket_Price = %s, Misc_Expenses, Total_Expenses = %s, Revenue = %s WHERE Event_ID = %s;", 
+        cursor.execute("UPDATE EVENT SET Venue_ID = %s, Event_Date = %s, Event_Time = %s, Tickets_Sold = %s, Ticket_Price = %s, Misc_Expenses = %s, Total_Expenses = %s, Revenue = %s WHERE Event_ID = %s;", 
                     (venue, date, time, ticketssold, ticketprice, miscexpenses, 0, 0, id))
         
         mydb.commit()
 
         cursor.execute("DELETE FROM EVENTEQUIPMENT WHERE Event_ID = %s;",
-                       (id))
+                       (id,))
         
         cursor.execute("DELETE FROM EVENTMERCH WHERE Event_ID = %s;",
-                       (id))
+                       (id,))
         
         mydb.commit()
 
         for i in equipment:
             cursor.execute("INSERT INTO EVENTEQUIPMENT (Event_ID, Equipment_ID) VALUES (%s, %s);",
-                           (id, equipment[i]))
+                           (id, i))
         
         for i in merch:
             cursor.execute("INSERT INTO EVENTMERCH (Event_ID, Merch_ID, QuantitySold) VALUES (%s, %s, %s);",
-                           (id, merch[i], 0))
+                           (id, i, 0))
         
         cursor.execute("UPDATE SETLIST SET Band_ID = %s, Timeslot = %s WHERE Event_ID = %s;",
                        (band1, 1, id))
@@ -549,16 +587,16 @@ def editshow(id):
                        (band4, 4, id))
         
         cursor.execute("UPDATE VOLUNTEERSCHEDULE SET Volunteer_ID = %s, Timeslot = %s WHERE Event_ID = %s;",
-                       (volunteer1, id))
+                       (volunteer1, 1, id))
         
         cursor.execute("UPDATE VOLUNTEERSCHEDULE SET Volunteer_ID = %s, Timeslot = %s WHERE Event_ID = %s;",
-                       (volunteer2, id))
+                       (volunteer2, 2, id))
         
         cursor.execute("UPDATE VOLUNTEERSCHEDULE SET Volunteer_ID = %s, Timeslot = %s WHERE Event_ID = %s;",
-                       (volunteer3, id))
+                       (volunteer3, 3, id))
         
         cursor.execute("UPDATE VOLUNTEERSCHEDULE SET Volunteer_ID = %s, Timeslot = %s WHERE Event_ID = %s;",
-                       (volunteer4, id))
+                       (volunteer4, 4, id))
         
         # Save Changes
         mydb.commit()
@@ -583,12 +621,13 @@ def editband(id):
 
     if request.method == 'POST':  # Check if it's a POST request
         name = form.name.data
+        location = form.location.data
         genre = form.genre.data
         instagram = form.instagram.data
         contact = form.contact.data
         contactphone = form.contactphone.data
-        cursor.execute("UPDATE BANDS SET Band_Name = %s, Band_Genre = %s, Band_Instagram = %s, B_Contact_Person = %s, B_Contact_Number = %s WHERE Band_ID = %s;", 
-                       (name, genre, instagram, contact, contactphone, id))
+        cursor.execute("UPDATE BANDS SET Band_Name = %s, Band_Location = %s, Band_Genre = %s, Band_Instagram = %s, B_Contact_Person = %s, B_Contact_Number = %s WHERE Band_ID = %s;", 
+                       (name, location, genre, instagram, contact, contactphone, id))
         # Save Changes
         mydb.commit()
         cursor.close()
@@ -625,7 +664,7 @@ def editvenue(id):
 @app.route("/edit-equipment/<int:id>", methods=['GET', 'POST'])
 def editequipment(id):
     # Get record
-    cursor = mydb.cursor(dictionary=True)
+    cursor = mydb.cursor()
     cursor.execute('SELECT * FROM EQUIPMENT WHERE Equipment_ID = %s', (id,))
     record = cursor.fetchone()
     form = forms.CreateEquipmentForm()
@@ -637,6 +676,7 @@ def editequipment(id):
     cursor.close()
 
     # Assign options to the SelectField
+    print(volunteeroptions)
     form.volunteer.choices = [(row[0], row[1]+row[2]) for row in volunteeroptions]
     form.vendor.choices = [(row[0], row[1]) for row in vendoroptions]
 
@@ -794,12 +834,12 @@ def delete_vendor(id):
     cursor.execute("DELETE FROM VENDOR WHERE Vendor_ID = %s;", (id,))
     mydb.commit()
     cursor.close()
-    return redirect(url_for('vendors'))
+    return redirect(url_for('vendor'))
 
 @app.route("/delete_volunteer/<int:id>", methods=['POST'])
 def delete_volunteer(id):
     cursor = mydb.cursor()
-    cursor.execute("DELETE FROM VOLUNTEERS WHERE Volunteer_ID = %s;", (id,))
+    cursor.execute("DELETE FROM VOLUNTEER WHERE Volunteer_ID = %s;", (id,))
     mydb.commit()
     cursor.close()
     return redirect(url_for('volunteers'))

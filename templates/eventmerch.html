@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Merchandise
+{% endblock %}
+
+{% block content %}
+<style>
+    table {
+        margin: auto;
+    }
+
+    form {
+        display: grid;
+        width: 10%; 
+        margin: 0 auto; /* centers the form horizontally */
+    }
+
+    .form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50vh; /* adjust as needed */
+    }
+
+    a {
+        color: #dddd; 
+    }
+
+    /* New styles added */
+    .add-merch-container {
+        display: flex;
+        justify-content: center;
+        padding: 20px 0;
+    }
+
+    .add-merch-button {
+        background-color: #555;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+</style>
+
+<table>
+    <thead>
+        <tr>
+            <th>Quantity Sold</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for form in merchforms %}
+            <tr>
+                <td>
+                    <form action="" method="post" style="float: left">
+                        {{form.merchid()}}
+                        <p>
+                            {{form.quantity.label}}
+                            {{form.quantity()}}
+                        </p>
+                        <td>
+                            <p>{{form.submit()}}</p>
+                        </td>
+                    </form>
+                </td>
+            </tr>
+    </tbody>
+    {% endfor %}
+</table>
+
+{% endblock %}

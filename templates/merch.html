@@ -60,6 +60,7 @@
             <th><a href="{{ url_for('merch', sort='Merch_Price') }}">Price</a></th>
             <th><a href="{{ url_for('merch', sort='QuantityAvailable') }}">Quantity Available</a></th>
             <th><a href="{{ url_for('merch', sort='Vendor_Name') }}">Vendor Name</a></th>
+            <th><a href="{{ url_for('merch', sort='Cost') }}">Cost</a></th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -71,6 +72,7 @@
                 <td>{{ merch.Merch_Price }}</td>
                 <td>{{ merch.QuantityAvailable }}</td>
                 <td>{{ merch.Vendor_Name }}</td>
+                <td>{{ merch.Cost }}</td>
                 <td>
                     <a href="{{ url_for('editmerch', id=merch.Merch_ID) }}">Edit</a>
                     <form method="post" action="{{ url_for('delete_merch', id=merch.Merch_ID) }}">

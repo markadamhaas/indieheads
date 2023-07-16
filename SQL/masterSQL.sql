@@ -204,14 +204,15 @@ CREATE TABLE EVENT (
     Misc_Expenses DECIMAL,
     Total_Expenses DECIMAL,
     Revenue DECIMAL,
+    Net DECIMAL,
     FOREIGN KEY (Venue_ID) REFERENCES VENUE(Venue_ID)
         ON DELETE SET NULL
 );
 
-INSERT INTO EVENT (Venue_ID, Event_Date, Event_Time, Tickets_Sold, Ticket_Price, Misc_Expenses)
+INSERT INTO EVENT (Venue_ID, Event_Date, Event_Time, Tickets_Sold, Ticket_Price, Misc_Expenses, Net)
 VALUES 
-(1, '2023-09-01', '19:00', 250, 50, 10),
-(2, '2023-10-01', '20:00', 300, 100, 10);    
+(1, '2023-09-01', '19:00', 250, 50, 10, 0),
+(2, '2023-10-01', '20:00', 300, 100, 10, 0);    
 
 CREATE TABLE EVENTEQUIPMENT (
     EventEquipment_ID INT AUTO_INCREMENT PRIMARY KEY,
